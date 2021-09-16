@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Home Page"
+  },
+  "TopNavbar": {
+    "product": "Product",
+    "signup": "Signup",
+    "signin": "Signin",
+    "about": "About"
+  }
+}
