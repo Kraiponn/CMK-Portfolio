@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import Image from 'next/image';
@@ -14,30 +13,41 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Avatar,
 } from '@mui/material';
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
 import LanguageIcon from '@mui/icons-material/Language';
-import PublicIcon from '@mui/icons-material/Public';
-import Logo from 'public/images/shopping1.png';
+// import PublicIcon from '@mui/icons-material/Public';
+import Logo from 'public/images/shopping2.png';
 import { Box } from '@mui/system';
+
+import thFlag from 'public/images/th-flag.png';
+import enUSFlag from 'public/images/en-us-flag.png';
 
 import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
 import {
   toggleThemeMode,
   setAppLanguages,
 } from '@src/features/store/slices/ui';
-import { useTranslations } from 'use-intl';
+
+import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
+import {
+  cmSecondaryColor,
+  cmWhiteColor,
+  cmYellowColor,
+  cmDarkColor,
+} from '@src/utils/colorsType';
 
 interface Props {}
 
 const TopNavbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const t = useTranslations('TopNavbar');
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { themeMode } = useAppSelector((state) => state.ui);
-  const router = useRouter();
 
+  const translateMsg = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
   const openLangMenu = Boolean(anchorEl);
 
   const handleOpenLangMenu = (event: React.MouseEvent<null | HTMLElement>) => {
@@ -54,58 +64,95 @@ const TopNavbar = (props: Props) => {
     const { pathname } = router;
     dispatch(setAppLanguages(lang));
 
-    router.push(`${pathname}?lang=${lang}`);
+    router.push(`${pathname}`, `${pathname}`, { locale: lang });
   };
 
   return (
-    <AppBar sx={{ bgcolor: '#fff' }} elevation={0} position="fixed">
+    <AppBar
+      elevation={1}
+      position="fixed"
+      sx={{
+        background: `linear-gradient(rgba(${cmDarkColor},.8), rgba(${cmDarkColor},.99))`,
+      }}
+    >
       <Toolbar>
         <NextLink href="/" passHref>
           <Link>
-            <Image src={Logo} alt="logo" width={30} height={30} />
+            <Tooltip title={translateMsg.homePage.title}>
+              <Avatar
+                src="/images/monster-green.png"
+                sx={{ width: 35, height: 35 }}
+                alt="logo"
+              />
+            </Tooltip>
           </Link>
         </NextLink>
         <Box sx={{ flexGrow: 1 }}></Box>
 
-        <NextLink href="/" passHref>
-          <Link underline="none">
+        <NextLink href="/auth/signup" passHref locale={router.locale}>
+          <Link underline="none" color="inherit">
             <Typography
-              variant="h4"
+              variant="h5"
               component="h5"
               sx={{
-                color: '#000',
+                color:
+                  router.pathname === '/auth/signup'
+                    ? cmYellowColor
+                    : cmWhiteColor,
                 marginRight: '1.2rem',
                 ':hover': {
-                  color: '#F50057',
+                  color: cmYellowColor,
                 },
               }}
             >
-              {t('signin')}
+              {translateMsg.topNavBar.signup}
             </Typography>
           </Link>
         </NextLink>
 
-        <NextLink href="/" passHref>
-          <Link underline="none">
+        <NextLink href="/auth/signin" passHref locale={router.locale}>
+          <Link underline="none" color="inherit">
             <Typography
-              variant="h4"
+              variant="h5"
               component="h5"
               sx={{
-                color: '#000',
+                color:
+                  router.pathname === '/auth/signin'
+                    ? cmYellowColor
+                    : cmWhiteColor,
                 marginRight: '1.2rem',
                 ':hover': {
-                  color: '#F50057',
+                  color: cmYellowColor,
                 },
               }}
             >
-              {t('about')}
+              {translateMsg.topNavBar.signin}
+            </Typography>
+          </Link>
+        </NextLink>
+
+        <NextLink href="/about" passHref locale={router.locale}>
+          <Link underline="none" color="inherit">
+            <Typography
+              variant="h5"
+              component="h5"
+              sx={{
+                color:
+                  router.pathname === '/about' ? cmYellowColor : cmWhiteColor,
+                marginRight: '1.2rem',
+                ':hover': {
+                  color: cmYellowColor,
+                },
+              }}
+            >
+              {translateMsg.topNavBar.about}
             </Typography>
           </Link>
         </NextLink>
 
         <Tooltip title="Theme mode" placement="bottom">
           <IconButton
-            sx={{ color: '#000' }}
+            color="inherit"
             onClick={() => dispatch(toggleThemeMode())}
           >
             {!themeMode ? <BrightnessHighIcon /> : <Brightness2Icon />}
@@ -113,7 +160,7 @@ const TopNavbar = (props: Props) => {
         </Tooltip>
 
         <Tooltip title="Changed languages" placement="bottom">
-          <IconButton sx={{ color: '#000' }} onClick={handleOpenLangMenu}>
+          <IconButton color="inherit" onClick={handleOpenLangMenu}>
             <LanguageIcon />
           </IconButton>
         </Tooltip>
@@ -152,29 +199,18 @@ const TopNavbar = (props: Props) => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem onClick={() => handleSelectAppLang('th')}>
-            <PublicIcon /> &nbsp;Thai
+            <Image src={thFlag} alt="Th-flag" width={30} height={30} />{' '}
+            &nbsp;Thai
           </MenuItem>
           <Divider />
-          <MenuItem onClick={() => handleSelectAppLang('en')}>
-            <PublicIcon /> &nbsp;English
+          <MenuItem onClick={() => handleSelectAppLang('en-US')}>
+            <Image src={enUSFlag} alt="enUS-flag" width={30} height={30} />{' '}
+            &nbsp;English
           </MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>
   );
 };
-
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   console.log(context);
-//   console.log('query sssssssssss');
-
-//   return {
-//     props: {
-//       messages: require(`@src/features/languages/en.json`),
-//     },
-//   };
-// };
 
 export default TopNavbar;

@@ -6,7 +6,7 @@ const initialState: IUIState = {
   screenMode: false,
   openMobileMenu: false,
   isLoader: false,
-  appLang: 'en',
+  appLang: 'en-US',
 };
 
 const uiSlice = createSlice({
@@ -29,6 +29,12 @@ const uiSlice = createSlice({
     toggleLoader: (state) => {
       state.isLoader = !state.isLoader;
     },
+    setLoader: (state) => {
+      state.isLoader = true;
+    },
+    unLoader: (state) => {
+      state.isLoader = false;
+    },
     setAppLanguages: (state, action: PayloadAction<string>) => {
       state.appLang = action.payload;
     },
@@ -41,6 +47,8 @@ export const {
   setScreenMode,
   toggleMobileMenu,
   toggleLoader,
+  setLoader,
+  unLoader,
   setAppLanguages,
 } = uiSlice.actions;
 

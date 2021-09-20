@@ -12,3 +12,7 @@
   font-family: 'JosefinSans-Bold';
   src: url('/fonts/JosefinSans-Bold.ttf');
 }
+
+.register_logo path {
+  fill: yellow;
+}

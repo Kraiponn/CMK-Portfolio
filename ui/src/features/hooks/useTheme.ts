@@ -1,6 +1,7 @@
 import { createTheme, Theme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import { useAppSelector } from '@src/features/hooks/useStore';
+import { cmPrimaryColor, cmSecondaryColor } from '@src/utils/colorsType';
 
 interface IAppTheme {
   theme: Theme;
@@ -13,18 +14,12 @@ const useTheme = (): IAppTheme => {
   const theme = createTheme({
     palette: {
       mode: themeMode ? 'dark' : 'light',
-      // primary: {
-      //   main: '#556cd6',
-      // },
-      // secondary: {
-      //   main: '#19857b',
-      // },
-      error: {
-        main: red.A400,
+      primary: {
+        main: `${cmPrimaryColor}`,
       },
-      // background: {
-      //   default: '#FAFAFA',
-      // },
+      secondary: {
+        main: `${cmSecondaryColor}`,
+      },
     },
     mixins: {
       toolbar: {
@@ -60,6 +55,11 @@ const useTheme = (): IAppTheme => {
       },
       h5: {
         fontSize: '1rem',
+        fontFamily: 'JosefinSans-Medium',
+        fontWeight: 'bold',
+      },
+      h6: {
+        fontSize: '0.9rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },

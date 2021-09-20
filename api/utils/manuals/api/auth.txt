@@ -1,0 +1,64 @@
+// Authentication api url
+// Base url :: http://localhost:<port>
+
+
+// @desc    Register new user
+// @route   POST /api/v2021/auth/register
+// @access  Public
+   Response:
+          {
+            "success": true,
+            "data": {
+                "message": "Created new user is successfully"
+            }
+          }
+//-------------------------------------------------------------
+
+// @desc    Login
+// @route   POST /api/v2021/auth/login
+// @access  Public
+   Response:
+          {
+            "success": true,
+            "data": {
+                "token": "",
+                "user": {
+                    "id": "",
+                    "username": "",
+                    "email": "",
+                    "image": {}
+                }
+            }
+}
+//-------------------------------------------------------------
+
+// @desc    Get user profile
+// @route   GET /api/v2021/auth/:uerId
+// @access  Public
+//-------------------------------------------------------------
+
+// @desc    Edit user
+// @route   PUT /api/v2021/auth/updateprofile
+// @access  Private
+//-------------------------------------------------------------
+
+// @desc    Edit password
+// @route   PUT /api/v2021/auth/updatepassword
+// @access  Private
+//-------------------------------------------------------------
+
+// @desc    Forgot password
+// @route   POST /api/v2021/auth/forgotpassword
+// @access  Public
+//-------------------------------------------------------------
+
+// @desc    Reset password by using token Id
+// @route   POST /api/v2021/auth/resetpassword/:tokenId
+// @access  Private
+//-------------------------------------------------------------
+
+// @desc    Remove account
+// @route   POST /api/v2021/auth/removedaccount
+// @access  Private
+//-------------------------------------------------------------
+
