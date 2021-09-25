@@ -1,51 +1,22 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { getErrors } from '@src/features/services/handlers/errors';
 
+import {
+  SignupResult,
+  SigninResult,
+  IUser,
+  IAuthForm,
+} from '@src/utils/types/auth';
 import Cookies from 'js-cookie';
-// import { ISignupResult } from '@src/utils/types/auth';
-// import { IFormSignup } from '@src/utils/types/auth';
-
-export interface IFormSignup {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface IUser {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
-  image?: {
-    public_id: string;
-    secure_url: string;
-  };
-}
 
 interface IAuthState {
   token?: string;
-  user?: IUser | null;
+  user?: IUser | null | undefined;
   isLoading: boolean;
   success: string;
   error: string;
 }
-
-type SignupResult = {
-  success: boolean;
-  data: {
-    message: string;
-  };
-};
-
-type SigninResult = {
-  success: boolean;
-  data: {
-    token: string;
-    user?: IUser;
-  };
-};
 
 const initialState: IAuthState = {
   token: '',
@@ -55,9 +26,9 @@ const initialState: IAuthState = {
   error: '',
 };
 
-const signup = createAsyncThunk<SignupResult, IFormSignup>(
+const signup = createAsyncThunk<SignupResult, IAuthForm>(
   'auth/signup',
-  async (user): Promise<SignupResult> => {
+  async (formValue): Promise<SignupResult> => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
@@ -65,7 +36,7 @@ const signup = createAsyncThunk<SignupResult, IFormSignup>(
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
         {
-          ...user,
+          ...formValue,
         },
         {
           headers: {
@@ -84,6 +55,35 @@ const signup = createAsyncThunk<SignupResult, IFormSignup>(
   }
 );
 
+const signin = createAsyncThunk<
+  SigninResult,
+  Omit<IAuthForm, 'username' | 'confirmPassword'>
+>('auth/signin', async (formValue): Promise<SigninResult> => {
+  const cancelToken = axios.CancelToken;
+  const source = cancelToken.source();
+
+  try {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      {
+        ...formValue,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        cancelToken: source.token,
+      }
+    );
+
+    source.cancel('Cancel api resouce');
+
+    return data as SigninResult;
+  } catch (error) {
+    throw new Error(getErrors(error as AxiosError));
+  }
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -91,11 +91,37 @@ const authSlice = createSlice({
     setSuccessProcess: (state) => {
       state.isLoading = false;
       state.success = '';
+      state.error = '';
+    },
+    getAuthState: (state) => {
+      // Get auth from cookies
+      const token = Cookies.get('authToken');
+      const user = JSON.parse(Cookies.get('authUser') as string);
+
+      state.isLoading = false;
+      state.error = '';
+      state.success = '';
+      state.token = token;
+      state.user = user;
+    },
+    signout: (state) => {
+      state.isLoading = false;
+      state.error = '';
+      state.success = '';
+      state.token = '';
+      state.user = null;
+
+      // Remove cookies
+      Cookies.remove('authToken');
+      Cookies.remove('authUser');
     },
   },
   extraReducers: (builder) => {
+    /***************************************************
+     *    SIGNUP PROCESS
+     */
     builder.addCase(signup.pending, (state) => {
-      console.log('Start signup...');
+      // console.log('Start signup...');
 
       state.isLoading = true;
       state.error = '';
@@ -106,7 +132,7 @@ const authSlice = createSlice({
 
     builder.addCase(signup.fulfilled, (state, action) => {
       const { payload } = action;
-      console.log('Fulfilled ...', payload);
+      // console.log('Fulfilled ...', payload);
 
       state.isLoading = false;
       state.error = '';
@@ -114,7 +140,42 @@ const authSlice = createSlice({
     });
 
     builder.addCase(signup.rejected, (state, action) => {
-      console.log('Rejected signup...');
+      // console.log('Rejected signup...');
+
+      state.isLoading = false;
+      state.success = '';
+      state.error = action.error.message || '';
+    });
+
+    /***************************************************
+     *    SIGNIN PROCESS
+     */
+    builder.addCase(signin.pending, (state) => {
+      // console.log('Signin Start...');
+
+      state.isLoading = true;
+      state.error = '';
+      state.success = '';
+      state.token = '';
+      state.user = null;
+    });
+
+    builder.addCase(signin.fulfilled, (state, action) => {
+      // console.log('Signin Fulfilled ...');
+      const { payload } = action;
+
+      state.isLoading = false;
+      state.error = '';
+      state.success = 'Signin successfully';
+      state.token = payload.data.token;
+      state.user = payload.data.user;
+
+      Cookies.set('authToken', payload.data.token);
+      Cookies.set('authUser', JSON.stringify(payload.data.user));
+    });
+
+    builder.addCase(signin.rejected, (state, action) => {
+      // console.log('Signin Rejected...');
 
       state.isLoading = false;
       state.success = '';
@@ -123,6 +184,6 @@ const authSlice = createSlice({
   },
 });
 
-export { signup };
-export const { setSuccessProcess } = authSlice.actions;
+export { signup, signin };
+export const { setSuccessProcess, signout, getAuthState } = authSlice.actions;
 export default authSlice.reducer;

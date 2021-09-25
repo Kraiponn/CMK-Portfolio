@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import Image from 'next/image';
 
+import { Box } from '@mui/system';
 import {
   AppBar,
   Toolbar,
@@ -19,13 +20,12 @@ import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
 import LanguageIcon from '@mui/icons-material/Language';
 // import PublicIcon from '@mui/icons-material/Public';
-import Logo from 'public/images/shopping2.png';
-import { Box } from '@mui/system';
 
 import thFlag from 'public/images/th-flag.png';
 import enUSFlag from 'public/images/en-us-flag.png';
 
 import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
+import { signout } from '@src/features/store/slices/auth';
 import {
   toggleThemeMode,
   setAppLanguages,
@@ -38,16 +38,19 @@ import {
   cmYellowColor,
   cmDarkColor,
 } from '@src/utils/colorsType';
+import AccountSettings from './AccountSettingMenu';
 
 interface Props {}
 
 const TopNavbar = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
   const { themeMode } = useAppSelector((state) => state.ui);
+  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const translateMsg = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const pageLangObj = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const topNavbarObj = pageLangObj.topNavBar;
   const openLangMenu = Boolean(anchorEl);
 
   const handleOpenLangMenu = (event: React.MouseEvent<null | HTMLElement>) => {
@@ -67,6 +70,12 @@ const TopNavbar = (props: Props) => {
     router.push(`${pathname}`, `${pathname}`, { locale: lang });
   };
 
+  const handleSignout = () => {
+    dispatch(signout());
+
+    router.push('/auth/signin', '/auth/signin', { locale: `${router.locale}` });
+  };
+
   return (
     <AppBar
       elevation={1}
@@ -77,26 +86,46 @@ const TopNavbar = (props: Props) => {
     >
       <Toolbar>
         <NextLink href="/" passHref>
-          <Link>
-            <Tooltip title={translateMsg.homePage.title}>
-              <Avatar
-                src="/images/monster-green.png"
-                sx={{ width: 35, height: 35 }}
-                alt="logo"
-              />
-            </Tooltip>
+          <Link
+            underline="none"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: '5rem',
+            }}
+          >
+            {/* <Tooltip title={pageLangObj.homePage.title}> */}
+
+            <Image
+              src={`/images/profile_thinking.svg`}
+              alt="logo"
+              width={35}
+              height={35}
+            />
+            <Box
+              sx={{
+                color: `${cmYellowColor}`,
+                alignSelf: 'center',
+                fontFamily: 'JosefinSans-Bold',
+                fontSize: '1.2rem',
+              }}
+              component="div"
+            >
+              CML
+            </Box>
+            {/* </Tooltip> */}
           </Link>
         </NextLink>
-        <Box sx={{ flexGrow: 1 }}></Box>
 
-        <NextLink href="/auth/signup" passHref locale={router.locale}>
+        <NextLink href="/products" passHref locale={router.locale}>
           <Link underline="none" color="inherit">
             <Typography
               variant="h5"
               component="h5"
               sx={{
                 color:
-                  router.pathname === '/auth/signup'
+                  router.pathname === '/products'
                     ? cmYellowColor
                     : cmWhiteColor,
                 marginRight: '1.2rem',
@@ -105,28 +134,7 @@ const TopNavbar = (props: Props) => {
                 },
               }}
             >
-              {translateMsg.topNavBar.signup}
-            </Typography>
-          </Link>
-        </NextLink>
-
-        <NextLink href="/auth/signin" passHref locale={router.locale}>
-          <Link underline="none" color="inherit">
-            <Typography
-              variant="h5"
-              component="h5"
-              sx={{
-                color:
-                  router.pathname === '/auth/signin'
-                    ? cmYellowColor
-                    : cmWhiteColor,
-                marginRight: '1.2rem',
-                ':hover': {
-                  color: cmYellowColor,
-                },
-              }}
-            >
-              {translateMsg.topNavBar.signin}
+              {topNavbarObj.product}
             </Typography>
           </Link>
         </NextLink>
@@ -145,12 +153,36 @@ const TopNavbar = (props: Props) => {
                 },
               }}
             >
-              {translateMsg.topNavBar.about}
+              {topNavbarObj.about}
             </Typography>
           </Link>
         </NextLink>
+        <Box sx={{ flexGrow: 1 }}></Box>
 
-        <Tooltip title="Theme mode" placement="bottom">
+        {user ? null : (
+          <NextLink href="/auth/signin" passHref locale={router.locale}>
+            <Link underline="none" color="inherit">
+              <Typography
+                variant="h5"
+                component="h5"
+                sx={{
+                  color:
+                    router.pathname === '/auth/signin'
+                      ? cmYellowColor
+                      : cmWhiteColor,
+                  marginRight: '1.2rem',
+                  ':hover': {
+                    color: cmYellowColor,
+                  },
+                }}
+              >
+                {topNavbarObj.signin}
+              </Typography>
+            </Link>
+          </NextLink>
+        )}
+
+        <Tooltip title={topNavbarObj.buttonThemeMode} placement="bottom">
           <IconButton
             color="inherit"
             onClick={() => dispatch(toggleThemeMode())}
@@ -159,7 +191,7 @@ const TopNavbar = (props: Props) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Changed languages" placement="bottom">
+        <Tooltip title={topNavbarObj.buttonLang} placement="bottom">
           <IconButton color="inherit" onClick={handleOpenLangMenu}>
             <LanguageIcon />
           </IconButton>
@@ -199,15 +231,17 @@ const TopNavbar = (props: Props) => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem onClick={() => handleSelectAppLang('th')}>
-            <Image src={thFlag} alt="Th-flag" width={30} height={30} />{' '}
-            &nbsp;Thai
+            <Image src={thFlag} alt="Th-flag" width={30} height={30} /> &nbsp;{' '}
+            {topNavbarObj.languageMenu.th}
           </MenuItem>
           <Divider />
           <MenuItem onClick={() => handleSelectAppLang('en-US')}>
             <Image src={enUSFlag} alt="enUS-flag" width={30} height={30} />{' '}
-            &nbsp;English
+            &nbsp; {topNavbarObj.languageMenu.enUs}
           </MenuItem>
         </Menu>
+
+        {user && <AccountSettings onSignout={handleSignout} />}
       </Toolbar>
     </AppBar>
   );

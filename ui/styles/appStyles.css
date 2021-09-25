@@ -13,6 +13,98 @@
   src: url('/fonts/JosefinSans-Bold.ttf');
 }
 
-.register_logo path {
-  fill: yellow;
+@font-face {
+  font-family: 'Bangers-Regular';
+  src: url('/fonts/Bangers-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Prompt-Regular';
+  src: url('/fonts/Prompt-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Prompt-Medium';
+  src: url('/fonts/Prompt-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Prompt-Bold';
+  src: url('/fonts/Prompt-Bold.ttf');
+}
+
+/* html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'JosefinSans-Regular';
+  font-family: 'JosefinSans-Regular', -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+} */
+
+.welcome {
+  display: block;
+  animation: welcomeMoveFromLeft 1s ease-out;
+}
+
+.welcome-detail {
+  display: block;
+  animation: welcomeDetailMoveFromRight 1s ease-out;
+}
+
+.btn-signup {
+  display: block;
+  background-color: rgb(248, 252, 3) !important;
+  animation: btnSignupFromBottom 0.45s ease-out 1s;
+  animation-fill-mode: backwards;
+}
+
+.btn-signup:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(252, 250, 250, 0.945);
+}
+
+.btn-signup:active {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(252, 250, 250, 0.945);
+}
+
+@keyframes welcomeMoveFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes welcomeDetailMoveFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes btnSignupFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }

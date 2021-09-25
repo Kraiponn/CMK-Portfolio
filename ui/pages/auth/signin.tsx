@@ -1,13 +1,57 @@
 import React from 'react';
-import Layout from '@src/components/Layout';
+import { useRouter } from 'next/router';
 
+import { Grid } from '@mui/material';
+
+// Action state
+import Loader from '@src/components/Loader';
+import Backdrop from '@src/components/Backdrop';
+
+// State management
+import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
+import { signin } from '@src/features/store/slices/auth';
+import { IAuthForm } from '@src/utils/types/auth';
+
+// App Languages
+import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
+
+import EmptyLayout from '@src/components/EmptyLayout';
+import LeftSide from '@src/components/auth/signin/LeftSide';
+import MainContent from '@src/components/auth/signin/MainContent';
+
+// Page props
 interface Props {}
 
 const SigninPage = (props: Props) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { appLang } = useAppSelector((state) => state.ui);
+  const { isLoading, success, error } = useAppSelector((state) => state.auth);
+
+  const pageLangObj = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+
+  const handleSubmitForm = (formValue: IAuthForm) => {
+    // console.log('Submit value:', formValue);
+    const { email, password } = formValue;
+
+    dispatch(signin({ email, password }));
+  };
+
+  if (success) {
+    // toast.success('Signin successfully');
+    router.push('/', '/', { locale: `${appLang}` });
+  }
+
   return (
-    <Layout title="signin">
-      <h1>Singin Page</h1>
-    </Layout>
+    <EmptyLayout title={pageLangObj.authPage.signinLabel}>
+      <Backdrop openBackDrop={isLoading} />
+      <Loader isLoading={isLoading} />
+
+      <Grid container spacing="1">
+        <LeftSide />
+        <MainContent errMessage={error} onSubmitForm={handleSubmitForm} />
+      </Grid>
+    </EmptyLayout>
   );
 };
 

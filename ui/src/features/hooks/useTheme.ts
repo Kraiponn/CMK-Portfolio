@@ -33,13 +33,26 @@ const useTheme = (): IAppTheme => {
       },
     },
     typography: {
+      fontFamily: [
+        // 'JosefinSans-Medium',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
       h1: {
-        fontSize: '2rem',
+        fontSize: '3rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
       h2: {
-        fontSize: '1.7rem',
+        fontSize: '1.9rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
@@ -63,7 +76,22 @@ const useTheme = (): IAppTheme => {
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
+      button: {
+        textTransform: 'none',
+        fontFamily: 'JosefinSans-Medium',
+        fontSize: '1.1rem',
+      },
     },
+    // components: {
+    //   MuiTextField: {
+    //     styleOverrides: {
+    //       root: {
+    //         paddingTop: '2px',
+    //         paddingBottom: '2px',
+    //       },
+    //     },
+    //   },
+    // },
   });
 
   return {

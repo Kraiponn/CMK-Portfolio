@@ -1,6 +1,19 @@
 export const TH_LOCALE_TYPE = 'th';
 
 export const th = {
+  dashboardPage: {
+    appbarTitle: 'แผงควบคุม',
+    drawerMenu: {
+      minimizeMenu: 'ซ่อนเมนู',
+      home: 'หน้าหลัก',
+      account: 'จัดการบัญชี',
+      product: 'จัดการสินค้า',
+      order: 'จัดการการสั่งซื้อ',
+      notification: 'แจ้งเตือน',
+      setting: 'ตั้งค่า',
+      signout: 'ลงชื่อออก',
+    },
+  },
   homePage: {
     title: 'หน้าหลัก',
   },
@@ -9,8 +22,20 @@ export const th = {
     signup: 'สมัครสมาชิก',
     signin: 'ลงชื่อเข้าใช้งาน',
     about: 'เกี่ยวกับเรา',
+    buttonLang: 'เลือกภาษา',
+    buttonThemeMode: 'เปลี่ยนธีม',
+    languageMenu: {
+      th: 'ไทย',
+      enUs: 'อังกฤษ',
+    },
+    accountMenu: {
+      hover: 'ตั้งค่าบัญชี',
+      dashboard: 'แผงควบคุม',
+      setting: 'ตั้งค่า',
+      signout: 'ลงชื่อออก',
+    },
   },
-  singupPage: {
+  authPage: {
     uNameLabel: 'ชื่อ-นามสกุล',
     emailLabel: 'อีเมล',
     pwdLabel: 'รหัสผ่าน',
@@ -23,6 +48,17 @@ export const th = {
     pwdMax: 'รหัสผ่าน ความยาวต้องไม่เกิน 16 หลัก',
     pwdRequired: 'กรุณาระบุ รหัสผ่าน',
     confirmPwdMatch: 'ยืนยันรหัสผ่าน ไม่ตรงกับรหัสผ่าน',
+    signupLabel: 'ลงทะเบียน',
+    signinLabel: 'ลงชื่อ',
+    rememberMeLabel: 'จดจำฉันไว้',
+    haveAccountLabel: `คุณมีบัญชีแล้วใช่ไหม?`,
+    noAccountLabel: `ยังไม่มีบัญชีใช่ไหม?`,
+    signupLinkLabel: 'ลงทะเบียนได้ที่นี่',
+    forgotPwdLabel: 'ลืมรหัสผ่านใช่ไหม?',
+    welcomeLabel: 'ยินดีต้อนรับ',
+    welcomeDetailLabel:
+      'หากต้องการเชื่อมต่อกับเราต่อไป โปรดลงชื่อเข้าใช้งานด้วยข้อมูลส่วนบุคคลของคุณ',
+    signupButton: 'ลงทะเบียน',
   },
   errors: {
     duplicateField: 'ชื่อหรืออีเมลนี้มีอยู่ในระบบอยู่แล้ว',
@@ -30,5 +66,8 @@ export const th = {
     apiNotConnect:
       'การเชื่อมต่อกับ API ล้มเหลว กรุณาตรวจสอบการเชื่อมต่อหรือลองใหม่อีกครั้ง',
     reponseElse: 'พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+  },
+  productPage: {
+    title: 'หน้าสินค้า',
   },
 };

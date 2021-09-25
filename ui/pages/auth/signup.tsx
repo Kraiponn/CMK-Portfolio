@@ -1,62 +1,39 @@
-import React, { useEffect } from 'react';
-import Image from 'next/image';
+import React, { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  Container,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  List,
-  ListItem,
-  OutlinedInput,
-  TextField,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { styled } from '@mui/system';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Box } from '@mui/system';
+import { Container, List, ListItem, Toolbar } from '@mui/material';
 
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+// Form validation
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { IFormSignup, IPwdDisplay } from '@src/utils/types/auth';
-import { cmRedColor } from '@src/utils/colorsType';
+import { IAuthForm, IPwdDisplay } from '@src/utils/types/auth';
 
+// State management
 import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
 import { setSuccessProcess, signup } from '@src/features/store/slices/auth';
-
-import { toast } from 'react-toastify';
-import ToastAlert from '@src/components/ToastAlert';
-
-import Layout from '@src/components/Layout';
-import Backdrop from '@src/components/Backdrop';
-import Loader from '@src/components/Loader';
 
 // App Languages
 import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
 
-const SingupLogo = styled('div')({
-  position: 'relative',
-  width: '100px',
-  height: '100px',
-  textAlign: 'center',
-  margin: '2rem auto',
-});
+// Components
+import Layout from '@src/components/Layout';
+import Backdrop from '@src/components/Backdrop';
+import Loader from '@src/components/Loader';
+import CMInput from '@src/components/ui/CMInput';
+import SigninAlert from '@src/components/auth/AuthAlert';
+import CMPwdInput from '@src/components/ui/CMPwdInput';
+import CMButton from '@src/components/ui/CMButton';
+import SigninLink from '@src/components/auth/signup/signinLink';
 
+/**********************************************
+ *    Main Function
+ */
 const SignupPage = () => {
   const dispatch = useAppDispatch();
-  const {
-    isLoading,
-    success,
-    error: mError,
-  } = useAppSelector((state) => state.auth);
+  const { isLoading, success, error } = useAppSelector((state) => state.auth);
 
   const [pwd, setPwd] = React.useState<IPwdDisplay>({
     showPwd: false,
@@ -64,41 +41,39 @@ const SignupPage = () => {
   });
 
   const router = useRouter();
-  const pageLangLabel = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const { authPage: pageAuthObj } =
+    router.locale === EN_US_LOCALE_TYPE ? enUs : th;
 
   const schema = yup.object().shape({
-    username: yup.string().required(pageLangLabel.singupPage.uNameRequired),
+    username: yup.string().required(pageAuthObj.uNameRequired),
     email: yup
       .string()
-      .required(pageLangLabel.singupPage.emailRequired)
-      .email(pageLangLabel.singupPage.emailValidType),
+      .required(pageAuthObj.emailRequired)
+      .email(pageAuthObj.emailValidType),
     password: yup
       .string()
-      .min(6, pageLangLabel.singupPage.pwdMin)
-      .max(18, pageLangLabel.singupPage.pwdMax)
+      .min(6, pageAuthObj.pwdMin)
+      .max(18, pageAuthObj.pwdMax)
       .required(),
     confirmPassword: yup
       .string()
-      .oneOf(
-        [yup.ref('password'), null],
-        pageLangLabel.singupPage.confirmPwdMatch
-      ),
+      .oneOf([yup.ref('password'), null], pageAuthObj.confirmPwdMatch),
   });
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormSignup>({
+  } = useForm<IAuthForm>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<IFormSignup> = (data) => {
+  const handleOnSubmitForm: SubmitHandler<IAuthForm> = (data) => {
     // console.log(data);
     dispatch(signup(data));
   };
 
-  const handleClickShowPassword = (pwdType: string) => {
+  const handleToggleDisplayPwd = (pwdType: string) => {
     if (pwdType === 'password') {
       setPwd({ ...pwd, showPwd: !pwd.showPwd });
     } else {
@@ -106,198 +81,123 @@ const SignupPage = () => {
     }
   };
 
+  const cleanAuthState = useCallback(() => {
+    dispatch(setSuccessProcess());
+  }, [dispatch]);
+
   if (success) {
-    toast.success('Signup is successfully.');
     dispatch(setSuccessProcess());
 
     // Redirect to Signin page
-    router.push('/auth/signin');
+    router.push('/auth/signin', '/auth/signin', { locale: `${router.locale}` });
   }
+
+  useEffect(() => {
+    // console.log('use effect in signup page');
+
+    return () => {
+      cleanAuthState();
+    };
+  }, [cleanAuthState]);
 
   return (
     <Layout title="Signup" description="signup page">
       <Backdrop openBackDrop={isLoading} />
       <Loader isLoading={isLoading} />
-      <ToastAlert />
       <Toolbar />
 
       <Container
-        maxWidth="sm"
         sx={{
-          height: '90vh',
-          marginTop: '2rem',
-          position: 'relative',
+          width: { xs: '90%', sm: '67%', md: '55%' },
+          marginTop: '1rem',
         }}
       >
-        <SingupLogo>
-          <Image
-            src={`/images/auth.png`}
-            alt="signin logo"
-            layout="fill"
-            objectFit="cover"
-          />
-        </SingupLogo>
+        <Box
+          sx={{
+            fontFamily:
+              router.locale === EN_US_LOCALE_TYPE
+                ? 'Bangers-Regular'
+                : 'Prompt-Medium',
+            fontWeight: 'bold',
+            fontSize: '2.9rem',
+            letterSpacing: '2px',
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '1rem',
+          }}
+        >
+          {pageAuthObj.signupLabel}
+        </Box>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <SigninAlert message={error} />
+
+        <form onSubmit={handleSubmit(handleOnSubmitForm)}>
           <List>
-            {mError ? (
-              <ListItem>
-                <Alert severity="error" sx={{ width: '100%' }}>
-                  <AlertTitle>Error</AlertTitle>
-                  <Typography variant="h5" component="h5">
-                    {mError}
-                  </Typography>
-                </Alert>
-              </ListItem>
-            ) : null}
-
             <ListItem>
-              <Controller
+              <CMInput
+                type="text"
                 name="username"
+                label={`${pageAuthObj.uNameLabel}`}
                 control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    type="text"
-                    fullWidth
-                    label={`${pageLangLabel.singupPage.uNameLabel}`}
-                    error={Boolean(errors.username)}
-                    helperText={errors.username?.message}
-                  />
-                )}
+                errors={errors}
               />
             </ListItem>
 
             <ListItem>
-              <Controller
+              <CMInput
+                type="email"
                 name="email"
+                label={`${pageAuthObj.emailLabel}`}
                 control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    type="email"
-                    fullWidth
-                    label={`${pageLangLabel.singupPage.emailLabel}`}
-                    error={Boolean(errors.email)}
-                    helperText={errors.email?.message}
-                  />
-                )}
+                errors={errors}
               />
             </ListItem>
 
             <ListItem>
-              <FormControl sx={{ width: '100%' }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  {`${pageLangLabel.singupPage.pwdLabel}`}
-                </InputLabel>
-                <Controller
-                  name="password"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <OutlinedInput
-                      {...field}
-                      id="outlined-adornment-amount"
-                      type={pwd.showPwd ? 'text' : 'password'}
-                      fullWidth
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => handleClickShowPassword('password')}
-                            // onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {pwd.showPwd ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label={`${pageLangLabel.singupPage.pwdLabel}`}
-                      // placeholder={`${pageLangLabel.singupPage.pwdLabel}`}
-                      error={Boolean(errors.password)}
-                    />
-                  )}
-                />
-              </FormControl>
-            </ListItem>
-            <ListItem>
-              <Typography
-                variant="h6"
-                component="h5"
-                sx={{ color: `${cmRedColor}` }}
-              >
-                {errors.password && errors.password.message}
-              </Typography>
+              <CMPwdInput
+                pwdType="password"
+                name="password"
+                label={pageAuthObj.pwdLabel}
+                control={control}
+                displayPwd={pwd.showPwd}
+                errors={errors}
+                handleToggleDisplayPwd={handleToggleDisplayPwd}
+              />
             </ListItem>
 
             <ListItem>
-              <FormControl sx={{ width: '100%' }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-confirm-password">
-                  {`${pageLangLabel.singupPage.confirmPwdLabel}`}
-                </InputLabel>
-                <Controller
-                  name="confirmPassword"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <OutlinedInput
-                      {...field}
-                      id="outlined-adornment-confirm-password"
-                      type={pwd.showConfirmPwd ? 'text' : 'password'}
-                      fullWidth
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle confirm password visibility"
-                            onClick={() =>
-                              handleClickShowPassword('confirmPassword')
-                            }
-                            // onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {pwd.showConfirmPwd ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label={`${pageLangLabel.singupPage.confirmPwdLabel}`}
-                      // placeholder={`${pageLangLabel.singupPage.confirmPwdLabel}`}
-                      error={Boolean(errors.confirmPassword)}
-                    />
-                  )}
-                />
-              </FormControl>
-            </ListItem>
-            <ListItem>
-              <Typography
-                variant="h6"
-                component="h5"
-                sx={{ color: `${cmRedColor}` }}
-              >
-                {errors.confirmPassword && errors.confirmPassword.message}
-              </Typography>
+              <CMPwdInput
+                pwdType="password"
+                name="confirmPassword"
+                label={pageAuthObj.confirmPwdLabel}
+                control={control}
+                displayPwd={pwd.showConfirmPwd}
+                errors={errors}
+                handleToggleDisplayPwd={handleToggleDisplayPwd}
+              />
             </ListItem>
 
             <ListItem>
-              <Button
+              <CMButton
+                buttonType="submit"
                 variant="contained"
+                label={pageAuthObj.submitButtonLabel}
                 color="primary"
-                type="submit"
-                sx={{ width: '90%', margin: '0 auto', py: '0.5rem' }}
-              >
-                {`${pageLangLabel.singupPage.submitButtonLabel}`}
-              </Button>
+                fullWidth={false}
+                horizontalAlignment="flex-end"
+                borderRadius={0.5}
+                marginTop={0.75}
+                marginBottom={0}
+              />
             </ListItem>
+
+            <SigninLink
+              appLang={router.locale as string}
+              haveAccountLabel={pageAuthObj.haveAccountLabel}
+              signinLink={pageAuthObj.signinLabel}
+              textAlignment="flex-start"
+              marginTop={0}
+            />
           </List>
         </form>
       </Container>

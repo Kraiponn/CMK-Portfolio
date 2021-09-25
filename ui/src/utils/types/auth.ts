@@ -1,21 +1,35 @@
-export interface IFormSignup {
+export interface IAuthForm {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface ISignupResult {
+export interface IUser {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+  image?: {
+    public_id: string;
+    secure_url: string;
+  };
+}
+
+export type SignupResult = {
   success: boolean;
   data: {
     message: string;
   };
-}
+};
 
-export interface IFormSignin {
-  email: string;
-  password: string;
-}
+export type SigninResult = {
+  success: boolean;
+  data: {
+    token: string;
+    user?: IUser;
+  };
+};
 
 export interface IPwdDisplay {
   showPwd: boolean;
