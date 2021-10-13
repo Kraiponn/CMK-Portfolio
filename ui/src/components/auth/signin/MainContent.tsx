@@ -29,7 +29,7 @@ import TopNavMenu from '@src/components/auth/signin/TopNavMenu';
 import CMInput from '@src/components/ui/CMInput';
 import CMPwdInput from '@src/components/ui/CMPwdInput';
 import CMButton from '@src/components/ui/CMButton';
-import BottomMenu from '@src/components/auth/signin/BottomMenu';
+import ForgotPasswordLink from '@src/components/auth/signin/ForgotpasswordLink';
 import AuthAlert from '@src/components/auth/AuthAlert';
 
 interface Props {
@@ -176,7 +176,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
                 />
               </ListItem>
 
-              <BottomMenu
+              <ForgotPasswordLink
                 appLang={appLang}
                 noAccountLabel={pageLangLabel.authPage.noAccountLabel}
                 signupLabel={pageLangLabel.authPage.signupLinkLabel}

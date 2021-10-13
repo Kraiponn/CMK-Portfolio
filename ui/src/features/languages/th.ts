@@ -70,4 +70,11 @@ export const th = {
   productPage: {
     title: 'หน้าสินค้า',
   },
+  forgotPasswordPage: {
+    title: 'ลืมรหัสผ่านใช่ไหม?',
+    description:
+      'ป้อน email address ที่เชื่อมโยงกับบัญชีของคุณหลังจากนั้นเราจะส่ง Link เพื่อใช้แก้ไขรหัสผ่านใหม่ที่ mail box ของคุณ',
+    emailBoxLabel: 'อีเมล',
+    resetPwdButton: 'ร้องขอ ตั้งค่ารหัสผ่านใหม่',
+  },
 };

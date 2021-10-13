@@ -31,6 +31,11 @@ const getErrorResponse = (errResponse: AxiosResponse) => {
   ) {
     return 'Your user name or email already exists. Please try again.';
   } else if (
+    errResponse.status === 404 &&
+    errResponse.data.errorDetail.type === 'General'
+  ) {
+    return errResponse.data.errorDetail.message;
+  } else if (
     errResponse.status === 400 &&
     errResponse.data.errorDetail.type === 'General'
   ) {

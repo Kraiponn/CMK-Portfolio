@@ -190,14 +190,27 @@ const forgotPassword = asyncHanler(async (req, res, next) => {
     senderName: "Admin",
     senderEmail: "admin@gmail.com",
     receiverEmail: "kraipon.na10@gmail.com",
+    // mailContent: `
+    //   <h1>Hello kraipon.na10@gmail.com!</h1>
+    //   <p>Someone has requested a link to change your password. You can do this through the button below.</p>
+    //   <a href="${tokenId}">Reset Password</a>
+    //   <br />
+    //   <p>Or link to reset password: ${req.protocol}://${req.get(
+    //   "host"
+    // )}/api/v2021/resetpassword/${tokenId}</p>
+
+    //   <br />
+    //   <p>If you didn't request this, please ignore this email. Your password will stay safe and won't be changed.</p>
+    // `,
     mailContent: `
       <h1>Hello kraipon.na10@gmail.com!</h1>
-      <p>Someone has requested a link to change your password. You can do this through the button below.</p>
-      <a href="${tokenId}">Reset Password</a>
+      <p>Someone has requested a link to change your password. You can do this through the link below.</p>
+     
       <br />
-      <p>Or link to reset password: ${req.protocol}://${req.get(
-      "host"
-    )}/api/v2021/resetpassword/${tokenId}</p>
+      <p>TokenId: ${tokenId}</p>
+      <p><a href="http://localhost:3000/auth/resetpassword/${tokenId}">
+        Click this link to reset password
+      </a></p>
 
       <br />
       <p>If you didn't request this, please ignore this email. Your password will stay safe and won't be changed.</p>

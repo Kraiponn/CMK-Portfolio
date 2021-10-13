@@ -13,7 +13,7 @@ interface Props {
   forgotPwdLabel: string;
 }
 
-const BottomMenu = ({
+const ForgotPasswordLink = ({
   appLang,
   noAccountLabel,
   signupLabel,
@@ -63,7 +63,7 @@ const BottomMenu = ({
             marginTop: '5px',
           }}
         >
-          <NextLink href="/auth/fogotpassword" passHref locale={`${appLang}`}>
+          <NextLink href="/auth/forgotpassword" passHref locale={`${appLang}`}>
             <Link underline="none">
               <Typography
                 variant="h6"
@@ -84,4 +84,4 @@ const BottomMenu = ({
   );
 };
 
-export default BottomMenu;
+export default ForgotPasswordLink;

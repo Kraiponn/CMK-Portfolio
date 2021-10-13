@@ -98,7 +98,7 @@ const TopNavbar = (props: Props) => {
             {/* <Tooltip title={pageLangObj.homePage.title}> */}
 
             <Image
-              src={`/images/profile_thinking.svg`}
+              src={`/images/business_man_thinking_1.svg`}
               alt="logo"
               width={35}
               height={35}
