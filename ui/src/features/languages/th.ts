@@ -38,6 +38,7 @@ export const th = {
   authPage: {
     uNameLabel: 'ชื่อ-นามสกุล',
     emailLabel: 'อีเมล',
+    newPwd: 'รหัสผ่านใหม่',
     pwdLabel: 'รหัสผ่าน',
     confirmPwdLabel: 'ยืนยัน-รหัสผ่าน',
     submitButtonLabel: 'ยืนยัน',
@@ -76,5 +77,11 @@ export const th = {
       'ป้อน email address ที่เชื่อมโยงกับบัญชีของคุณหลังจากนั้นเราจะส่ง Link เพื่อใช้แก้ไขรหัสผ่านใหม่ที่ mail box ของคุณ',
     emailBoxLabel: 'อีเมล',
     resetPwdButton: 'ร้องขอ ตั้งค่ารหัสผ่านใหม่',
+  },
+  resetPwdPage: {
+    title: 'กำหนดรหัสผ่านใหม่',
+    backHome: 'กลับสู่หน้าหลัก',
+    finishTitle: 'การร้องขอสำเร็จ',
+    finishDescription: 'เราได้ส่งลิ้งสำหรับแก้ไขรหัสผ่านให้คุณทางอีเมล',
   },
 };

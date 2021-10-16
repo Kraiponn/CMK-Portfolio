@@ -3,6 +3,7 @@ export interface IAuthForm {
   email: string;
   password: string;
   confirmPassword: string;
+  resetToken?: string;
 }
 
 export interface IUser {

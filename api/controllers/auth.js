@@ -225,6 +225,7 @@ const forgotPassword = asyncHanler(async (req, res, next) => {
       success: true,
       data: {
         message: "Email was send",
+        // tokenId,
       },
     });
   } catch (error) {
@@ -240,6 +241,9 @@ const forgotPassword = asyncHanler(async (req, res, next) => {
 // @route   POST /api/v2021/auth/resetpassword/:tokenId
 // @access  Private
 const resetPassword = asyncHanler(async (req, res, next) => {
+  // console.log("body", req.body);
+  // console.log("params", req.params.tokenId);
+
   const error = validationResult(req);
   validateBodyResults(error);
 

@@ -1,4 +1,4 @@
-import { IFormSignup, ISignupResult } from '@src/utils/types/auth';
+import { IAuthForm } from '@src/utils/types/auth';
 
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
@@ -15,7 +15,7 @@ import { getErrors } from '../services/handlers/errors';
 // const cancelToken = axios.CancelToken;
 // const axiosSource = cancelToken.source();
 
-const signup = async (user: IFormSignup) => {
+const signup = async (user: IAuthForm) => {
   const cancelToken = axios.CancelToken;
   const axiosSource = cancelToken.source();
 
@@ -45,7 +45,7 @@ const signup = async (user: IFormSignup) => {
 };
 
 const useSignup = () => {
-  return useMutation<ISignupResult, Error, IFormSignup>(signup);
+  return useMutation<{}, Error, IAuthForm>(signup);
 };
 
 export default useSignup;

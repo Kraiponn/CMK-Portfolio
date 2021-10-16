@@ -37,6 +37,7 @@ export const enUs = {
   authPage: {
     uNameLabel: 'User Name',
     emailLabel: 'Email Address',
+    newPwd: 'New Password',
     pwdLabel: 'Password',
     confirmPwdLabel: 'Confirm Password',
     submitButtonLabel: 'Submit',
@@ -74,5 +75,12 @@ export const enUs = {
       'Enter the email address associated with your account and we will send you a link to reset your password.',
     emailBoxLabel: 'Email Address',
     resetPwdButton: 'Request Password Reset',
+  },
+  resetPwdPage: {
+    title: 'Reset Password',
+    backHome: 'Back to home',
+    finishTitle: 'Process Successfully',
+    finishDescription:
+      'We are sending a link to reset password on your mail box.',
   },
 };

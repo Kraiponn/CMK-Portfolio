@@ -32,15 +32,15 @@ const SigninLink = ({
             marginTop: `${marginTop}px`,
           }}
         >
-          <Typography variant="h6" component="h6">
+          <Typography variant="h5" component="h5">
             {haveAccountLabel} &nbsp;
           </Typography>
 
           <NextLink href="/auth/signin" passHref locale={`${appLang}`}>
             <Link underline="none">
               <Typography
-                variant="h6"
-                component="h6"
+                variant="h5"
+                component="h5"
                 sx={{
                   color: `${cmRedColor}`,
                   fontWeight: 'bold',

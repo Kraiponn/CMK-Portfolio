@@ -29,7 +29,7 @@ import TopNavMenu from '@src/components/auth/signin/TopNavMenu';
 import CMInput from '@src/components/ui/CMInput';
 import CMPwdInput from '@src/components/ui/CMPwdInput';
 import CMButton from '@src/components/ui/CMButton';
-import ForgotPasswordLink from '@src/components/auth/signin/ForgotpasswordLink';
+import ForgotPasswordLink from '@src/components/auth/signin/ForgotPasswordLink';
 import AuthAlert from '@src/components/auth/AuthAlert';
 
 interface Props {
@@ -65,10 +65,10 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
     formState: { errors },
   } = useForm<IAuthForm>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'kraiponn@gmail.com',
-      password: 'admin989',
-    },
+    // defaultValues: {
+    //   email: 'kraiponn@gmail.com',
+    //   password: 'admin989',
+    // },
   });
 
   const handleToggleDisplayPwd = (pwdType: string) => {

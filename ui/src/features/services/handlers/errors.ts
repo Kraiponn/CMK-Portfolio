@@ -36,6 +36,11 @@ const getErrorResponse = (errResponse: AxiosResponse) => {
   ) {
     return errResponse.data.errorDetail.message;
   } else if (
+    errResponse.status === 401 &&
+    errResponse.data.errorDetail.type === 'General'
+  ) {
+    return 'Session was expire or please requested forgot password again.';
+  } else if (
     errResponse.status === 400 &&
     errResponse.data.errorDetail.type === 'General'
   ) {

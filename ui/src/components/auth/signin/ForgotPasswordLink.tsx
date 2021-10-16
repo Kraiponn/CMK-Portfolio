@@ -27,18 +27,18 @@ const ForgotPasswordLink = ({
             display: 'flex',
             justifyContent: 'center',
             width: '100%',
-            marginTop: '5px',
+            marginTop: '1rem',
           }}
         >
-          <Typography variant="h6" component="h6">
+          <Typography variant="h5" component="h5">
             {noAccountLabel} &nbsp;
           </Typography>
 
           <NextLink href="/auth/signup" passHref locale={`${appLang}`}>
             <Link underline="none">
               <Typography
-                variant="h6"
-                component="h6"
+                variant="h5"
+                component="h5"
                 sx={{
                   color: `${cmRedColor}`,
                   fontWeight: 'bold',
@@ -66,8 +66,8 @@ const ForgotPasswordLink = ({
           <NextLink href="/auth/forgotpassword" passHref locale={`${appLang}`}>
             <Link underline="none">
               <Typography
-                variant="h6"
-                component="h6"
+                variant="h5"
+                component="h5"
                 sx={{
                   ':hover': {
                     color: `${cmSecondaryColor}`,

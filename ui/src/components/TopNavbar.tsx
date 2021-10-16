@@ -14,7 +14,6 @@ import {
   Menu,
   MenuItem,
   Divider,
-  Avatar,
 } from '@mui/material';
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
@@ -33,23 +32,23 @@ import {
 
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 import {
-  cmSecondaryColor,
   cmWhiteColor,
   cmYellowColor,
   cmDarkColor,
 } from '@src/utils/colorsType';
 import AccountSettings from './AccountSettingMenu';
 
-interface Props {}
-
-const TopNavbar = (props: Props) => {
+/*************************************************************************
+ *   MAIN METHOD
+ */
+const TopNavbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { themeMode } = useAppSelector((state) => state.ui);
+  const { themeMode, appLang } = useAppSelector((state) => state.ui);
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const pageLangObj = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const pageLangObj = appLang === EN_US_LOCALE_TYPE ? enUs : th;
   const topNavbarObj = pageLangObj.topNavBar;
   const openLangMenu = Boolean(anchorEl);
 
@@ -64,16 +63,15 @@ const TopNavbar = (props: Props) => {
   };
 
   const handleSelectAppLang = (lang: string) => {
-    const { pathname } = router;
     dispatch(setAppLanguages(lang));
 
-    router.push(`${pathname}`, `${pathname}`, { locale: lang });
+    // router.push(`${pathname}`, `${pathname}`, { locale: lang });
   };
 
   const handleSignout = () => {
     dispatch(signout());
 
-    router.push('/auth/signin', '/auth/signin', { locale: `${router.locale}` });
+    router.push('/auth/signin', '/auth/signin', { locale: `${appLang}` });
   };
 
   return (
@@ -118,7 +116,7 @@ const TopNavbar = (props: Props) => {
           </Link>
         </NextLink>
 
-        <NextLink href="/products" passHref locale={router.locale}>
+        <NextLink href="/products" passHref locale={appLang}>
           <Link underline="none" color="inherit">
             <Typography
               variant="h5"
@@ -139,7 +137,7 @@ const TopNavbar = (props: Props) => {
           </Link>
         </NextLink>
 
-        <NextLink href="/about" passHref locale={router.locale}>
+        <NextLink href="/about" passHref locale={appLang}>
           <Link underline="none" color="inherit">
             <Typography
               variant="h5"
@@ -160,7 +158,7 @@ const TopNavbar = (props: Props) => {
         <Box sx={{ flexGrow: 1 }}></Box>
 
         {user ? null : (
-          <NextLink href="/auth/signin" passHref locale={router.locale}>
+          <NextLink href="/auth/signin" passHref locale={appLang}>
             <Link underline="none" color="inherit">
               <Typography
                 variant="h5"

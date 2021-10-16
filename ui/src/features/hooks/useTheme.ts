@@ -52,17 +52,17 @@ const useTheme = (): IAppTheme => {
         fontWeight: 'bold',
       },
       h2: {
-        fontSize: '1.9rem',
+        fontSize: '2.4rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
       h3: {
-        fontSize: '1.5rem',
+        fontSize: '1.7rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
       h4: {
-        fontSize: '1.2rem',
+        fontSize: '1.3rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },
@@ -72,7 +72,7 @@ const useTheme = (): IAppTheme => {
         fontWeight: 'bold',
       },
       h6: {
-        fontSize: '0.9rem',
+        fontSize: '0.8rem',
         fontFamily: 'JosefinSans-Medium',
         fontWeight: 'bold',
       },

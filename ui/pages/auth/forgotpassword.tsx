@@ -70,9 +70,7 @@ const ForgotPasswordPage = () => {
   };
 
   const handleNavigateToSigninPage = () => {
-    // console.log('Forgot successfully.');
-
-    router.push('/auth/signin', '/auth/signin', {
+    router.push('/auth/finishedforgotpwd', '/auth/finishedforgotpwd', {
       locale: router.locale,
     });
   };
