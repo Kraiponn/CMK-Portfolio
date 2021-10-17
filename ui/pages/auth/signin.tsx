@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { Grid } from '@mui/material';
 
 // Action state
-import Loader from '@src/components/Loader';
-import Backdrop from '@src/components/Backdrop';
+import Loader from '@src/components/shares/Loader';
+import Backdrop from '@src/components/shares/Backdrop';
 
 // State management
 import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
@@ -15,7 +15,7 @@ import { IAuthForm } from '@src/utils/types/auth';
 // App Languages
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 
-import EmptyLayout from '@src/components/EmptyLayout';
+import EmptyLayout from '@src/components/shares/EmptyLayout';
 import LeftSide from '@src/components/auth/signin/LeftSide';
 import MainContent from '@src/components/auth/signin/MainContent';
 

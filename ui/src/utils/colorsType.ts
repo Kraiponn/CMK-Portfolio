@@ -1,4 +1,6 @@
 const cmYellowColor = '#FFFF00';
+const cmOrangeColor = '#ffab00';
+const cmLigthOrangeColor = '#ffc400';
 const cmRedColor = '#D50000';
 const cmWhiteColor = '#FFFFFF';
 const cmBlackColor = '#000000';
@@ -10,6 +12,8 @@ const cmSecondaryColor = '#F50057';
 
 export {
   cmYellowColor,
+  cmOrangeColor,
+  cmLigthOrangeColor,
   cmRedColor,
   cmWhiteColor,
   cmBlackColor,

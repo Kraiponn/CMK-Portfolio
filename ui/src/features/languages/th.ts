@@ -18,10 +18,13 @@ export const th = {
     title: 'หน้าหลัก',
   },
   topNavBar: {
+    home: 'หน้าหลัก',
     product: 'สินค้า',
     signup: 'สมัครสมาชิก',
     signin: 'ลงชื่อเข้าใช้งาน',
+    signout: 'ลงชื่อออก',
     about: 'เกี่ยวกับเรา',
+    setting: 'ตั้งค่า',
     buttonLang: 'เลือกภาษา',
     buttonThemeMode: 'เปลี่ยนธีม',
     languageMenu: {

@@ -17,10 +17,13 @@ export const enUs = {
     title: 'Home Page',
   },
   topNavBar: {
+    home: 'Home',
     product: 'Product',
     signup: 'Signup',
     signin: 'Signin',
+    signout: 'Signout',
     about: 'About',
+    setting: 'Setting',
     buttonLang: 'App Languages',
     buttonThemeMode: 'Theme Mode',
     languageMenu: {

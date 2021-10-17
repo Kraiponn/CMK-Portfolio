@@ -12,7 +12,7 @@ import { getAuthState } from '@src/features/store/slices/auth';
 
 // App Languages
 import { enUs, EN_US_LOCALE_TYPE, th } from '@src/features/languages';
-import Layout from '@src/components/Layout';
+import Layout from '@src/components/shares/Layout';
 
 /*********************************************
  *    MAIN METHOD

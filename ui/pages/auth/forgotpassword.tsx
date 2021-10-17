@@ -16,15 +16,15 @@ import { Box } from '@mui/system';
 import EmailIcon from '@mui/icons-material/AttachEmail';
 
 // Action state
-import Loader from '@src/components/Loader';
-import Backdrop from '@src/components/Backdrop';
-import Layout from '@src/components/Layout';
+import Loader from '@src/components/shares/Loader';
+import Backdrop from '@src/components/shares/Backdrop';
+import Layout from '@src/components/shares/Layout';
 
 // Styles
 import styles from '@styles/forgotpassword.module.css';
 import useForgotPassword from '@src/features/hooks/useForgotpassword';
 import AuthAlert from '@src/components/auth/AuthAlert';
-import KSModal from '@src/components/KSModal';
+import KSModal from '@src/components/shares/KSModal';
 
 // Form validation
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';

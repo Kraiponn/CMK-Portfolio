@@ -12,7 +12,7 @@ import { Container, Toolbar, Typography } from '@mui/material';
 // App Languages
 import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
 
-import Layout from '@src/components/Layout';
+import Layout from '@src/components/shares/Layout';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -21,16 +21,6 @@ const Home: NextPage = () => {
 
   const pageLangObj = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
   const homeLangObj = pageLangObj.homePage;
-  // const token = Cookies.get('authToken');
-
-  // Make sure user is signin
-  // if (!user && !token) {
-  //   router.push('/auth/signin', '/auth/signin', {
-  //     locale: router.locale,
-  //   });
-  // } else if (!user && token) {
-  //   dispatch(getAuthState());
-  // }
 
   return (
     <Layout title={homeLangObj.title}>
@@ -38,6 +28,8 @@ const Home: NextPage = () => {
       <Container sx={{ my: '2rem' }}>
         <Typography variant="h1">{homeLangObj.title}</Typography>
       </Container>
+
+      {/* <Box sx={{width: ''}} */}
     </Layout>
   );
 };

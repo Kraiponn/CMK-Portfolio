@@ -13,7 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import { useAppSelector } from '@src/features/hooks/useStore';
 
 // Components
-import Layout from '@src/components/Layout';
+import Layout from '@src/components/shares/Layout';
 import { cmPrimaryColor } from '@src/utils/colorsType';
 
 /*************************************************************************

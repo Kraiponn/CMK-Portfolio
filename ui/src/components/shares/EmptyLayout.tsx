@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-import MainContent from './MainContent';
+
+// Components
+import MainContent from '@src/components/shares/MainContent';
 
 interface Props {
   title: string;

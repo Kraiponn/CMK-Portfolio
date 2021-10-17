@@ -19,9 +19,9 @@ import { setSuccessProcess, signup } from '@src/features/store/slices/auth';
 import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
 
 // Components
-import Layout from '@src/components/Layout';
-import Backdrop from '@src/components/Backdrop';
-import Loader from '@src/components/Loader';
+import Layout from '@src/components/shares/Layout';
+import Backdrop from '@src/components/shares/Backdrop';
+import Loader from '@src/components/shares/Loader';
 import CMInput from '@src/components/ui/CMInput';
 import SigninAlert from '@src/components/auth/AuthAlert';
 import CMPwdInput from '@src/components/ui/CMPwdInput';

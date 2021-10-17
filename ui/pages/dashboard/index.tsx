@@ -32,9 +32,9 @@ import PowerSettingsNewtIcon from '@mui/icons-material/PowerSettingsNew';
 import SettingsIcon from '@mui/icons-material/Settings';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
-import EmptyLayout from '@src/components/EmptyLayout';
-import Backdrop from '@src/components/Backdrop';
-import Loader from '@src/components/Loader';
+import EmptyLayout from '@src/components/shares/EmptyLayout';
+import Backdrop from '@src/components/shares/Backdrop';
+import Loader from '@src/components/shares/Loader';
 
 // State management
 import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';

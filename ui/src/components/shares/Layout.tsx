@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-import MainContent from './MainContent';
+import MainContent from '@src/components/shares/MainContent';
 
 import { useAppSelector } from '@src/features/hooks/useStore';
 
-import Backdrop from '@src/components/Backdrop';
-import Loader from '@src/components/Loader';
-import TopNavbar from './TopNavbar';
+import Backdrop from '@src/components/shares/Backdrop';
+import Loader from '@src/components/shares/Loader';
+import TopNavbar from '@src/components/shares/TopNavbar';
 
 interface Props {
   title: string;

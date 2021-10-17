@@ -14,8 +14,8 @@ import { Box } from '@mui/system';
 import { List, ListItem, Toolbar, Typography } from '@mui/material';
 
 // Action state
-import Loader from '@src/components/Loader';
-import Backdrop from '@src/components/Backdrop';
+import Loader from '@src/components/shares/Loader';
+import Backdrop from '@src/components/shares/Backdrop';
 
 // Form validation
 import * as yup from 'yup';
@@ -25,10 +25,10 @@ import { IAuthForm, IPwdDisplay } from '@src/utils/types/auth';
 import { cmRedColor } from '@src/utils/colorsType';
 
 // Components
-import Layout from '@src/components/Layout';
+import Layout from '@src/components/shares/Layout';
 import CMPwdInput from '@src/components/ui/CMPwdInput';
 import CMButton from '@src/components/ui/CMButton';
-import KSModal from '@src/components/KSModal';
+import KSModal from '@src/components/shares/KSModal';
 
 interface Props {
   token: { tokenId: string };
