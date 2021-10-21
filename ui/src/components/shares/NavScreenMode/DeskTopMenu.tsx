@@ -1,21 +1,25 @@
 import React from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 
+// Css frame work
 import { Box } from '@mui/system';
 import {
   Link,
   IconButton,
   Tooltip,
   Typography,
-  Menu,
-  MenuItem,
-  Divider,
+  // Menu,
+  // MenuItem,
+  // Divider,
 } from '@mui/material';
-import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
-import Brightness2Icon from '@mui/icons-material/Brightness2';
-import LanguageIcon from '@mui/icons-material/Language';
+import SettingsIcon from '@mui/icons-material/Settings';
+// import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
+// import Brightness2Icon from '@mui/icons-material/Brightness2';
+// import LanguageIcon from '@mui/icons-material/Language';
 
+// Type for this component
 import { IUser } from '@src/utils/types/auth';
 
 // App Languages
@@ -25,9 +29,11 @@ import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 import { cmWhiteColor, cmYellowColor } from '@src/utils/colorsType';
 
 // Components
-import AccountSettings from '@src/components/shares/AccountSettingMenu';
+import AccountSettings from '@src/components/shares/NavScreenMode/AccountSettingMenu';
 import thFlag from 'public/images/th-flag.png';
 import enUSFlag from 'public/images/en-us-flag.png';
+import Settings from '@mui/icons-material/Settings';
+import { TH_LOCALE_TYPE } from '@src/features/languages/enUs';
 
 // Interface
 interface IProps {
@@ -45,29 +51,35 @@ interface IProps {
 }
 
 /********************************************
- *   MAIN METHOD
- */
+ *              MAIN METHOD
+ *******************************************/
 const DeskTopMenu = ({
   appLang,
   pathname,
   user,
-  themeMode,
-  anchorEl,
-  openLangMenu,
-  onToggleThemeMode,
-  onOpenLangMenu,
-  onClosedLangMenu,
-  onSelectedAppLang,
+  // themeMode,
+  // anchorEl,
+  // openLangMenu,
+  // onToggleThemeMode,
+  // onOpenLangMenu,
+  // onClosedLangMenu,
+  // onSelectedAppLang,
   onSignout,
 }: IProps) => {
+  const router = useRouter();
   const { topNavBar: pageLangObj } = appLang === EN_US_LOCALE_TYPE ? enUs : th;
 
-  const handleSelectedAppLang = (type: string) => {
-    onSelectedAppLang(type);
+  // const handleSelectedAppLang = (type: string) => {
+  //   onSelectedAppLang(type);
+  // };
+
+  const handleNavigateToPage = (pathName: string) => {
+    router.push(`/${pathName}`, `/${pathName}`, { locale: appLang });
   };
 
   return (
     <>
+      {/* Product page link */}
       <NextLink href="/products" passHref locale={appLang}>
         <Link underline="none" color="inherit">
           <Typography
@@ -85,7 +97,6 @@ const DeskTopMenu = ({
           </Typography>
         </Link>
       </NextLink>
-
       <NextLink href="/about" passHref locale={appLang}>
         <Link underline="none" color="inherit">
           <Typography
@@ -104,7 +115,7 @@ const DeskTopMenu = ({
         </Link>
       </NextLink>
       <Box sx={{ flexGrow: 1 }}></Box>
-
+      {/* Signin Link */}
       {user ? null : (
         <NextLink href="/auth/signin" passHref locale={appLang}>
           <Link underline="none" color="inherit">
@@ -125,8 +136,27 @@ const DeskTopMenu = ({
           </Link>
         </NextLink>
       )}
-
-      <Tooltip title={pageLangObj.buttonThemeMode} placement="bottom">
+      {/* Flag to show app language */}
+      {appLang === TH_LOCALE_TYPE ? (
+        <Image src={thFlag} alt="Th-flag" width={30} height={30} />
+      ) : (
+        <Image src={enUSFlag} alt="Th-flag" width={30} height={30} />
+      )}
+      &nbsp; {/* Setting page link */}
+      <Tooltip
+        title={pageLangObj.settingLink}
+        placement="bottom"
+        onClick={() => handleNavigateToPage('setting')}
+      >
+        <IconButton color="inherit">
+          <Settings />
+        </IconButton>
+      </Tooltip>
+      {/* Account setting link */}
+      {user && (
+        <AccountSettings appLang={appLang} onSignout={() => onSignout()} />
+      )}
+      {/* <Tooltip title={pageLangObj.buttonThemeMode} placement="bottom">
         <IconButton
           color="inherit"
           // onClick={() => dispatch(toggleThemeMode())}
@@ -193,9 +223,7 @@ const DeskTopMenu = ({
           <Image src={enUSFlag} alt="enUS-flag" width={30} height={30} /> &nbsp;{' '}
           {pageLangObj.languageMenu.enUs}
         </MenuItem>
-      </Menu>
-
-      {user && <AccountSettings onSignout={() => onSignout()} />}
+      </Menu> */}
     </>
   );
 };

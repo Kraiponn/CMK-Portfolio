@@ -16,8 +16,9 @@ const uiSlice = createSlice({
     toggleThemeMode: (state) => {
       state.themeMode = !state.themeMode;
     },
-    setDarkMode: (state) => {
-      state.themeMode = true;
+    setDarkMode: (state, action: PayloadAction<boolean>) => {
+      // state.themeMode = true;
+      state.themeMode = action.payload ? true : false;
     },
     setScreenMode: (state, action: PayloadAction<string>) => {
       if (action.payload === MOBILE_SCREEN) state.screenMode = true;

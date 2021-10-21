@@ -30,6 +30,7 @@ const TopNavbar = () => {
   let [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
   const { themeMode, appLang } = useAppSelector((state) => state.ui);
   const { user } = useAppSelector((state) => state.auth);
+
   const dispatch = useAppDispatch();
   const router = useRouter();
 

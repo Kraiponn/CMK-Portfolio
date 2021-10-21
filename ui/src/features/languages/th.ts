@@ -25,6 +25,7 @@ export const th = {
     signout: 'ลงชื่อออก',
     about: 'เกี่ยวกับเรา',
     setting: 'ตั้งค่า',
+    settingLink: 'ตั้งค่าระบบ',
     buttonLang: 'เลือกภาษา',
     buttonThemeMode: 'เปลี่ยนธีม',
     languageMenu: {
@@ -86,5 +87,18 @@ export const th = {
     backHome: 'กลับสู่หน้าหลัก',
     finishTitle: 'การร้องขอสำเร็จ',
     finishDescription: 'เราได้ส่งลิ้งสำหรับแก้ไขรหัสผ่านให้คุณทางอีเมล',
+  },
+  settingsPage: {
+    title: 'ตั้งค่าระบบ',
+    languages: {
+      title: 'ภาษา',
+      enUs: 'อังกฤษ',
+      th: 'ไทย',
+    },
+    theme: {
+      title: 'พื้นหลัง',
+      dark: 'โหมดมืด',
+      light: 'โหมดสว่าง',
+    },
   },
 };

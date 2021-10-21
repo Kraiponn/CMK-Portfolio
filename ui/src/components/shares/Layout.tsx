@@ -1,11 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
+
+// App state management
+import { useAppDispatch } from '@src/features/hooks/useStore';
+import { getAuthState } from '@src/features/store/slices/auth';
+
+// Components
 import MainContent from '@src/components/shares/MainContent';
-
-import { useAppSelector } from '@src/features/hooks/useStore';
-
-import Backdrop from '@src/components/shares/Backdrop';
-import Loader from '@src/components/shares/Loader';
 import TopNavbar from '@src/components/shares/TopNavbar';
 
 interface Props {
@@ -14,8 +15,15 @@ interface Props {
   children: ReactNode;
 }
 
+/*************************************************************************
+ *                            MAIN METHOD
+ ************************************************************************/
 const Layout = ({ title, description, children }: Props) => {
-  const { isLoader } = useAppSelector((state) => state.ui);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAuthState());
+  }, [dispatch]);
 
   return (
     <>
@@ -23,9 +31,6 @@ const Layout = ({ title, description, children }: Props) => {
         <title>{title}</title>
         {description && <meta name={title} content={description} />}
       </Head>
-
-      <Loader isLoading={isLoader} />
-      <Backdrop openBackDrop={isLoader} />
 
       <TopNavbar />
       <MainContent>{children}</MainContent>

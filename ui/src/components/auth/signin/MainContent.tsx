@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+// Css frame work
 import { Box } from '@mui/system';
 import {
   Checkbox,
@@ -11,7 +12,7 @@ import {
   ListItem,
 } from '@mui/material';
 
-// State management
+// App state management
 import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
 import { setSuccessProcess } from '@src/features/store/slices/auth';
 
@@ -37,25 +38,29 @@ interface Props {
   errMessage: string;
 }
 
+/*************************************************************************
+ *                            MAIN METHOD
+ ************************************************************************/
 const MainContent = ({ onSubmitForm, errMessage }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const { appLang } = useAppSelector((state) => state.ui);
   const [pwd, setPwd] = React.useState<IPwdDisplay>({
     showPwd: false,
     showConfirmPwd: false,
   });
 
-  const pageLangLabel = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const { authPage: pageLangObj } = appLang === EN_US_LOCALE_TYPE ? enUs : th;
   const schema = yup.object().shape({
     email: yup
       .string()
-      .required(pageLangLabel.authPage.emailRequired)
-      .email(pageLangLabel.authPage.emailValidType),
+      .required(pageLangObj.emailRequired)
+      .email(pageLangObj.emailValidType),
     password: yup
       .string()
-      .min(6, pageLangLabel.authPage.pwdMin)
-      .max(18, pageLangLabel.authPage.pwdMax)
+      .min(6, pageLangObj.pwdMin)
+      .max(18, pageLangObj.pwdMax)
       .required(),
   });
 
@@ -95,8 +100,6 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
 
   // Life cycle events control
   useEffect(() => {
-    // console.log('use effect in signup page');
-
     return () => {
       cleanAuthState();
     };
@@ -115,7 +118,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
           <Box
             sx={{
               fontFamily:
-                router.locale === EN_US_LOCALE_TYPE
+                appLang === EN_US_LOCALE_TYPE
                   ? 'Bangers-Regular'
                   : 'Prompt-Medium',
               fontWeight: 'bold',
@@ -126,7 +129,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
               marginBottom: '1.2rem',
             }}
           >
-            {pageLangLabel.authPage.signinLabel}
+            {pageLangObj.signinLabel}
           </Box>
 
           <AuthAlert message={errMessage} />
@@ -137,7 +140,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
                 <CMInput
                   type="email"
                   name="email"
-                  label={`${pageLangLabel.authPage.emailLabel}`}
+                  label={`${pageLangObj.emailLabel}`}
                   control={control}
                   errors={errors}
                 />
@@ -147,7 +150,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
                 <CMPwdInput
                   pwdType="password"
                   name="password"
-                  label={pageLangLabel.authPage.pwdLabel}
+                  label={pageLangObj.pwdLabel}
                   control={control}
                   displayPwd={pwd.showPwd}
                   errors={errors}
@@ -157,7 +160,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
 
               <ListItem>
                 <FormControlLabel
-                  label={pageLangLabel.authPage.rememberMeLabel}
+                  label={pageLangObj.rememberMeLabel}
                   control={<Checkbox />}
                 />
               </ListItem>
@@ -166,7 +169,7 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
                 <CMButton
                   buttonType="submit"
                   variant="contained"
-                  label={pageLangLabel.authPage.submitButtonLabel}
+                  label={pageLangObj.submitButtonLabel}
                   color="primary"
                   borderRadius={1}
                   fullWidth={false}
@@ -178,9 +181,9 @@ const MainContent = ({ onSubmitForm, errMessage }: Props) => {
 
               <ForgotPasswordLink
                 appLang={appLang}
-                noAccountLabel={pageLangLabel.authPage.noAccountLabel}
-                signupLabel={pageLangLabel.authPage.signupLinkLabel}
-                forgotPwdLabel={pageLangLabel.authPage.forgotPwdLabel}
+                noAccountLabel={pageLangObj.noAccountLabel}
+                signupLabel={pageLangObj.signupLinkLabel}
+                forgotPwdLabel={pageLangObj.forgotPwdLabel}
               />
             </List>
           </form>

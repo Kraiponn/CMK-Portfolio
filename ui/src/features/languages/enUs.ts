@@ -1,4 +1,6 @@
 export const EN_US_LOCALE_TYPE = 'en-US';
+export const TH_LOCALE_TYPE = 'th';
+
 export const enUs = {
   dashboardPage: {
     appbarTitle: 'Dashboard',
@@ -24,6 +26,7 @@ export const enUs = {
     signout: 'Signout',
     about: 'About',
     setting: 'Setting',
+    settingLink: 'System setting',
     buttonLang: 'App Languages',
     buttonThemeMode: 'Theme Mode',
     languageMenu: {
@@ -85,5 +88,18 @@ export const enUs = {
     finishTitle: 'Process Successfully',
     finishDescription:
       'We are sending a link to reset password on your mail box.',
+  },
+  settingsPage: {
+    title: 'System Settings',
+    languages: {
+      title: 'App Languages',
+      enUs: 'English',
+      th: 'Thai',
+    },
+    theme: {
+      title: 'App Theme',
+      dark: 'Dark mode',
+      light: 'Light mode',
+    },
   },
 };

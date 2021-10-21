@@ -1,11 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
+// Css frame work
 import { Box } from '@mui/system';
 import { Button, Container, Grid, Typography } from '@mui/material';
 import { cmDarkColor, cmYellowColor } from '@src/utils/colorsType';
 
-// State management
+// App state management
 import { useAppSelector } from '@src/features/hooks/useStore';
 
 // App Languages
@@ -16,12 +17,15 @@ import {
   TH_LOCALE_TYPE,
 } from '@src/features/languages';
 
+/*************************************************************************
+ *                            MAIN METHOD
+ ************************************************************************/
 const LeftSide = () => {
   const router = useRouter();
   const { appLang } = useAppSelector((state) => state.ui);
 
-  const { homePage, authPage } =
-    router.locale === EN_US_LOCALE_TYPE ? enUs : th;
+  const { homePage: homePageLangObj, authPage: authPageLangObj } =
+    appLang === EN_US_LOCALE_TYPE ? enUs : th;
 
   // Redirect to home page
   const handleClickBackToHomePage = () => {
@@ -57,7 +61,7 @@ const LeftSide = () => {
               color: '#fff',
             }}
           >
-            {authPage.welcomeLabel}
+            {authPageLangObj.welcomeLabel}
           </Typography>
 
           <Typography
@@ -70,7 +74,7 @@ const LeftSide = () => {
               marginBottom: '3rem',
             }}
           >
-            {authPage.welcomeDetailLabel}
+            {authPageLangObj.welcomeDetailLabel}
           </Typography>
 
           <Button
@@ -89,7 +93,7 @@ const LeftSide = () => {
               borderRadius: '2rem',
             }}
           >
-            {homePage.title}
+            {homePageLangObj.title}
           </Button>
         </Container>
       </Box>

@@ -95,8 +95,9 @@ const authSlice = createSlice({
     },
     getAuthState: (state) => {
       // Get auth from cookies
-      const token = Cookies.get('authToken');
-      const user = JSON.parse(Cookies.get('authUser') as string);
+      const token = Cookies.get('authToken') || '';
+      const userStr = Cookies.get('authUser') || '';
+      const user = userStr ? JSON.parse(userStr) : null;
 
       state.isLoading = false;
       state.error = '';

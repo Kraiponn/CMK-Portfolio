@@ -1,5 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
+
+// App state management
+import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
+import { getAuthState } from '@src/features/store/slices/auth';
 
 // Components
 import MainContent from '@src/components/shares/MainContent';
@@ -10,7 +14,17 @@ interface Props {
   children: ReactNode;
 }
 
+/*************************************************************************
+ *                            MAIN METHOD
+ ************************************************************************/
 const EmptyLayout = ({ title, description, children }: Props) => {
+  const dispatch = useAppDispatch();
+  // const { isLoader } = useAppSelector((state) => state.ui);
+
+  useEffect(() => {
+    dispatch(getAuthState());
+  }, [dispatch]);
+
   return (
     <>
       <Head>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
+// Css frame work
 import { Tooltip, Menu, MenuItem, IconButton, Divider } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -11,16 +12,22 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 
 interface Props {
+  appLang: string;
   onSignout: () => void;
 }
 
-const AccountSettingMenu = ({ onSignout }: Props) => {
+/********************************************
+ *              MAIN METHOD
+ *******************************************/
+const AccountSettingMenu = ({ appLang, onSignout }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const router = useRouter();
 
-  const pageLangObj = router.locale === EN_US_LOCALE_TYPE ? enUs : th;
-  const menuObj = pageLangObj.topNavBar.accountMenu;
+  const {
+    topNavBar: { accountMenu: pageLangObj },
+  } = appLang === EN_US_LOCALE_TYPE ? enUs : th;
+
   const openAccountMenu = Boolean(anchorEl);
 
   const handleOpenAccountMenu = (
@@ -38,23 +45,23 @@ const AccountSettingMenu = ({ onSignout }: Props) => {
   const handleSelectedMenu = (menuKey: number) => {
     switch (menuKey) {
       case 1: // Redirect to dashboard page
-        router.push('/dashboard', '/dashboard', { locale: `${router.locale}` });
+        router.push('/dashboard', '/dashboard', { locale: appLang });
         break;
       case 2: // Redirect to settings page
-        router.push('/settings', '/settings', { locale: `${router.locale}` });
+        router.push('/setting', '/setting', { locale: appLang });
         break;
       case 3: // Signout and redirect to home page
         onSignout();
         break;
 
       default:
-        router.push('/', '/', { locale: `${router.locale}` });
+        router.push('/', '/', { locale: appLang });
     }
   };
 
   return (
     <>
-      <Tooltip title={`${menuObj.hover}`} placement="bottom">
+      <Tooltip title={`${pageLangObj.hover}`} placement="bottom">
         <IconButton color="inherit" onClick={handleOpenAccountMenu}>
           <PersonIcon />
         </IconButton>
@@ -95,16 +102,16 @@ const AccountSettingMenu = ({ onSignout }: Props) => {
       >
         <MenuItem onClick={() => handleSelectedMenu(1)}>
           <ManageAccountsIcon />
-          &nbsp; {menuObj.dashboard}
+          &nbsp; {pageLangObj.dashboard}
         </MenuItem>
         <Divider />
 
         <MenuItem onClick={() => handleSelectedMenu(2)}>
-          <SettingsIcon /> &nbsp; {menuObj.setting}
+          <SettingsIcon /> &nbsp; {pageLangObj.setting}
         </MenuItem>
 
         <MenuItem onClick={() => handleSelectedMenu(3)}>
-          <PowerSettingsNewIcon /> &nbsp; {menuObj.signout}
+          <PowerSettingsNewIcon /> &nbsp; {pageLangObj.signout}
         </MenuItem>
       </Menu>
     </>
