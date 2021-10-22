@@ -16,6 +16,11 @@ import CMDrawer from '@src/components/dashboard/shares/CMDrawer';
 // State management
 import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
 import { signout } from '@src/features/store/slices/auth';
+import {
+  selectedItemMenu,
+  openedDrawerMenu,
+  closedDrawerMenu,
+} from '@src/features/store/slices/dashboard';
 import Cookies from 'js-cookie';
 
 // App Languages
@@ -25,12 +30,15 @@ import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
  *                   Main Function
  **************************************************************/
 const DashboardPage = () => {
-  // const { user, token } = useAppSelector((state) => state.auth);
+  const { currentIndex, drawerOpen } = useAppSelector(
+    (state) => state.dashboard
+  );
   const { appLang } = useAppSelector((state) => state.ui);
   const [open, setOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const theme = useTheme();
-  const dispatch = useAppDispatch();
 
   const localToken = Cookies.get('authToken') || '';
   const { dashboardPage: pageLangObj } =
@@ -38,10 +46,12 @@ const DashboardPage = () => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    dispatch(openedDrawerMenu());
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    dispatch(closedDrawerMenu());
   };
 
   const handleClickedMenu = (itemNo: number) => {
@@ -49,21 +59,20 @@ const DashboardPage = () => {
       case 0:
         router.push('/', '/', { locale: appLang });
         break;
-
       case 1:
-        router.push('/', '/', { locale: appLang });
+        dispatch(selectedItemMenu(itemNo));
         break;
       case 2:
-        router.push('/', '/', { locale: appLang });
+        dispatch(selectedItemMenu(itemNo));
         break;
       case 3:
-        router.push('/', '/', { locale: appLang });
+        dispatch(selectedItemMenu(itemNo));
         break;
       case 4:
-        router.push('/', '/', { locale: appLang });
+        dispatch(selectedItemMenu(itemNo));
         break;
       case 5:
-        router.push('/', '/', { locale: appLang });
+        dispatch(selectedItemMenu(itemNo));
         break;
       case 6: {
         dispatch(signout());
@@ -92,14 +101,15 @@ const DashboardPage = () => {
       <Box sx={{ display: 'flex' }}>
         <CMAppBar
           title={pageLangObj.appbarTitle}
-          open={open}
+          open={drawerOpen}
           handleDrawerOpen={handleDrawerOpen}
         />
 
         <CMDrawer
           appLang={appLang}
           theme={theme}
-          open={open}
+          currentIndex={currentIndex}
+          open={drawerOpen}
           title={pageLangObj.drawerMenu.minimizeMenu}
           homeLabel={pageLangObj.drawerMenu.home}
           accountLabel={pageLangObj.drawerMenu.account}

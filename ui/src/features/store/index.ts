@@ -15,10 +15,12 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 
 import uiReducer from '@src/features/store/slices/ui';
 import authReducer from '@src/features/store/slices/auth';
+import dashboardReducer from '@src/features/store/slices/dashboard';
 
 const rootReducer = combineReducers({
   ui: uiReducer,
   auth: authReducer,
+  dashboard: dashboardReducer,
 });
 
 const persistConfig = {

@@ -29,8 +29,8 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 // Colors system
 import { cmPrimaryColor } from '@src/utils/colorsType';
 
-// App Languages
-import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
+// Components
+import CMListItemButton from '@src/components/dashboard/shares/CMListItemButton';
 
 interface Props {
   title: string;
@@ -42,6 +42,7 @@ interface Props {
   settingLabel: string;
   signoutLabel: string;
   open: boolean;
+  currentIndex: number;
   appLang: string;
   theme: Theme;
   handleDrawerClose: () => void;
@@ -61,6 +62,7 @@ const CMDrawer = ({
   notifyLabel,
   signoutLabel,
   open,
+  currentIndex,
   appLang,
   theme,
   handleDrawerClose,
@@ -102,119 +104,72 @@ const CMDrawer = ({
         </ListItem>
         <Divider />
 
-        <ListItem button onClick={() => handleClickedMenu(0)} color="primary">
-          <ListItemIcon>
-            <HomeIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={homeLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={homeLabel}
+          Icon={HomeIcon}
+          itemNo={0}
+          selected={false}
+          handleClickedMenu={handleClickedMenu}
+        />
+
         <Divider />
 
-        <ListItem button selected>
-          <ListItemIcon>
-            <ManageAccountsIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={accountLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={accountLabel}
+          Icon={ManageAccountsIcon}
+          itemNo={1}
+          selected={currentIndex === 1 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
 
-        <ListItem button>
-          <ListItemIcon>
-            <BusinessCenterIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={productLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={productLabel}
+          Icon={BusinessCenterIcon}
+          itemNo={2}
+          selected={currentIndex === 2 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
 
-        <ListItem button>
-          <ListItemIcon>
-            <ShoppingCartIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={orderLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={orderLabel}
+          Icon={ShoppingCartIcon}
+          itemNo={3}
+          selected={currentIndex === 3 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
 
-        <ListItem button>
-          <ListItemIcon>
-            <NotificationsActiveIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={notifyLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={notifyLabel}
+          Icon={NotificationsActiveIcon}
+          itemNo={4}
+          selected={currentIndex === 4 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
 
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon color="inherit" />
-          </ListItemIcon>
-          <ListItemText
-            primary={settingLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Regular',
-              // fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={settingLabel}
+          Icon={SettingsIcon}
+          itemNo={5}
+          selected={currentIndex === 5 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
         <Divider />
 
-        <ListItem button onClick={() => handleClickedMenu(6)}>
-          <ListItemIcon>
-            <PowerSettingsNewtIcon color="secondary" fontSize="large" />
-          </ListItemIcon>
-          <ListItemText
-            primary={signoutLabel}
-            primaryTypographyProps={{
-              fontFamily:
-                appLang === EN_US_LOCALE_TYPE
-                  ? 'JosefinSans-Medium'
-                  : 'Prompt-Medium',
-              fontWeight: 'bold',
-            }}
-          />
-        </ListItem>
+        <CMListItemButton
+          appLang={appLang}
+          label={signoutLabel}
+          Icon={PowerSettingsNewtIcon}
+          iconColor="secondary"
+          itemNo={6}
+          selected={currentIndex === 6 ? true : false}
+          handleClickedMenu={handleClickedMenu}
+        />
       </List>
     </Drawer>
   );

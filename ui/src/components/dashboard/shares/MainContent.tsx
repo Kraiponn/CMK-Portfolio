@@ -17,6 +17,9 @@ interface Props {
   appLang: string;
 }
 
+/***************************************************
+ *                Main Function
+ **************************************************/
 const MainContent = ({ appLang }: Props) => {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
