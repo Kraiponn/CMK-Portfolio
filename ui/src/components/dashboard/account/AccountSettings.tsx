@@ -10,14 +10,22 @@ import { useAppSelector } from '@src/features/hooks/useStore';
 // Languages
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 
-interface Props {}
+interface Props {
+  appLang: string;
+}
 
 /************************************************
  *    MAIN METHOD
  */
-const AccountSettings = (props: Props) => {
+const AccountSettings = ({ appLang }: Props) => {
   return (
-    <Box sx={{}}>
+    <Box
+      sx={{
+        width: '90%',
+        height: '90vh',
+        margin: '0 auto',
+      }}
+    >
       <Typography variant="h2" component="h2">
         Account Settings
       </Typography>
