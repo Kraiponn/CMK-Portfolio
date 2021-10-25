@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import asyncHandler from "express-async-handler";
-import ErrorResponse from "../utils/handle/ErrorResponse";
-import User from "../models/User";
+const jwt = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
+const ErrorResponse = require("../utils/handle/ErrorResponse");
+const User = require("../models/User");
 
 // Check authentication to access route
 const isAuth = asyncHandler(async (req, res, next) => {
@@ -57,4 +57,4 @@ const authorize = (...roles) => {
   };
 };
 
-export { isAuth, authorize };
+module.exports = { isAuth, authorize };

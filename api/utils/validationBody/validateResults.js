@@ -1,4 +1,4 @@
-import { convertErrorValidateToObject } from "./convertTo";
+const { convertErrorValidateToObject } = require("./convertTo");
 
 const validateBodyResults = (error) => {
   if (!error.isEmpty()) {
@@ -12,4 +12,4 @@ const validateBodyResults = (error) => {
   }
 };
 
-export { validateBodyResults };
+module.exports = { validateBodyResults };

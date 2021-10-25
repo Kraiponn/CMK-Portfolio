@@ -1,22 +1,22 @@
-import path from "path";
-import express from "express";
-import rateLimit from "express-rate-limit";
-import dotenv from "dotenv";
-import cors from "cors";
-import helmet from "helmet";
-import hpp from "hpp";
-import xssClean from "xss-clean";
-import colors from "colors";
+const path = require("path");
+const express = require("express");
+const rateLimit = require("express-rate-limit");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const helmet = require("helmet");
+const hpp = require("hpp");
+const xssClean = require("xss-clean");
+const colors = require("colors");
 const morgan = require("morgan");
-// import morgan from "morgan";
-import mongoSanitize from "express-mongo-sanitize";
+const mongoSanitize = require("express-mongo-sanitize");
 
-import connectedDB from "./services/db";
+const connectedDB = require("./services/db");
 
-import handleError from "./middlewares/errorHandler";
-import authRoutes from "./routes/auth";
+const handleError = require("./middlewares/errorHandler");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
-// Loading variables from config ifle
+// Loading variables = require(config ifle
 dotenv.config();
 
 const app = express();
@@ -52,6 +52,7 @@ app.use(limiter);
 
 // Mount Routes
 app.use("/api/v2021/auth", authRoutes);
+app.use("/api/v2021/users", userRoutes);
 
 // Handle errors
 app.use(handleError);

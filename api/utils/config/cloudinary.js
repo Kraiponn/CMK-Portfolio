@@ -1,13 +1,13 @@
-import dotenv from "dotenv";
-import multer from "multer";
-import cloudinary from "cloudinary";
-import ErrorRespose from "../handle/ErrorResponse";
+const dotenv = require("dotenv");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const ErrorRespose = require("../handle/ErrorResponse");
 
 // Loading environment values
 dotenv.config();
 
 // Config cloudinary
-cloudinary.v2.config({
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -39,4 +39,4 @@ const uploader = multer({
   },
 });
 
-export { uploader, cloudinary };
+module.exports = { uploader, cloudinary };

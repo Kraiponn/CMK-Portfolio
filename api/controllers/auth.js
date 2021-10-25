@@ -1,14 +1,16 @@
-import crypto from "crypto";
-import asyncHanler from "express-async-handler";
-import { validationResult } from "express-validator";
+const crypto = require("crypto");
+const asyncHanler = require("express-async-handler");
+const { validationResult } = require("express-validator");
 
-import ErrorResponse from "../utils/handle/ErrorResponse";
-import { validateBodyResults } from "../utils/validationBody/validateResults";
+const ErrorResponse = require("../utils/handle/ErrorResponse");
+const {
+  validateBodyResults,
+} = require("../utils/validationBody/validateResults");
 
-import sendResponseWithToken from "../services/sendTokenResponse";
-import sendEmail from "../services/sendEmail";
-import { cloudinary } from "../utils/config/cloudinary";
-import User from "../models/User";
+const sendResponseWithToken = require("../services/sendTokenResponse");
+const sendEmail = require("../services/sendEmail");
+const { cloudinary } = require("../utils/config/cloudinary");
+const User = require("../models/User");
 
 // @desc    Create new user
 // @route   POST /api/v2021/auth/register
@@ -292,7 +294,7 @@ const removedAccount = asyncHanler(async (req, res, next) => {
   });
 });
 
-export {
+module.exports = {
   register,
   login,
   getProfile,

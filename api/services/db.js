@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const connectedDB = async () => {
   const strConnect =
@@ -14,12 +14,12 @@ const connectedDB = async () => {
     //   useUnifiedTopology: true,
     // });
 
-    const conn = await mongoose.connect(strConnect);
+    const conn = await mongoose.connect(`${process.env.MONGO_URI_PROD}`);
 
-    console.log(`Mongodb connected: ${conn.connection.host}`.cyan.bold);
+    console.log(`Mongodb connected ${conn.connection.host}`.cyan.bold);
   } catch (error) {
     console.error(`Mongodb error:`.red.underline.bold, error);
   }
 };
 
-export default connectedDB;
+module.exports = connectedDB;

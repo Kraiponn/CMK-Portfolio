@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   register,
   login,
   getProfile,
@@ -8,18 +8,18 @@ import {
   forgotPassword,
   resetPassword,
   removedAccount,
-} from "../controllers/auth.js";
-import {
+} = require("../controllers/auth.js");
+const {
   isValidateRegisInput,
   isValidateLoginInput,
   isValidateUpdatePwdInput,
   isValidateProfileInput,
   isValidateForgotPwdInput,
   isValidateResetPwdInput,
-} from "../utils/validationBody/auth";
+} = require("../utils/validationBody/auth");
 
-import { uploader } from "../utils/config/cloudinary";
-import { isAuth } from "../middlewares/authorize";
+const { uploader } = require("../utils/config/cloudinary");
+const { isAuth } = require("../middlewares/authorize");
 
 const router = express.Router();
 
@@ -45,4 +45,4 @@ router.put("/resetpassword/:tokenId", isValidateResetPwdInput, resetPassword);
 
 router.post("/removedaccount", isAuth, removedAccount);
 
-export default router;
+module.exports = router;

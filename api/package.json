@@ -4,7 +4,8 @@
   "description": "Rest api for app",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -r esm server.js",
+    "devtest": "nodemon -r esm server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "keywords": [],
