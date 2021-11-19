@@ -97,17 +97,15 @@ const updateProfile = asyncHanler(async (req, res, next) => {
     );
   }
 
-  const { username, email, mobile, office, address, age } = req.body;
+  const { username, email, mobile, address, age, sex } = req.body;
 
   user.username = username ? username : user.username;
   user.email = email ? email : user.email;
   user.credentials = {
-    phone: {
-      mobile: mobile ? mobile : "",
-      office: office ? mobile : "",
-    },
-    address: address ? address : "",
-    age: age ? parseInt(age) : 0,
+    mobile: mobile ? mobile : user.mobile,
+    address: address ? address : user.address,
+    age: age ? parseInt(age) : user.age,
+    sex: sex ? sex : user.sex,
   };
 
   if (req.file) {

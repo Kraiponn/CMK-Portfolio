@@ -7,6 +7,7 @@ const User = require("../models/User");
 const isAuth = asyncHandler(async (req, res, next) => {
   let token;
   const tokenPrefix = process.env.JWT_PREFIX_DATA;
+  // console.log("Token from ui", req.headers.authorization);
 
   if (
     req.headers.authorization &&

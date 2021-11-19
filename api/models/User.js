@@ -32,9 +32,8 @@ const userSchema = new mongoose.Schema(
       default: "User",
     },
     credentials: {
-      phone: {
-        mobile: String,
-        office: String,
+      mobile: {
+        type: Number,
       },
       address: {
         type: String,
@@ -42,6 +41,10 @@ const userSchema = new mongoose.Schema(
       },
       age: {
         type: Number,
+      },
+      sex: {
+        type: String,
+        enum: ["male", "female"],
       },
     },
     image: {

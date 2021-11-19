@@ -14,6 +14,15 @@ const sendResponseWithToken = (userModel, statusCode, response) => {
     options.secure = true;
   }
 
+  const uCredential = userModel.credentials;
+
+  const credentials = {
+    mobile: uCredential.mobile ? uCredential.mobile : "",
+    sex: uCredential.mobile ? uCredential.sex : "",
+    age: uCredential.age ? uCredential.age : "",
+    address: uCredential.address ? uCredential.address : "",
+  };
+
   response
     .status(statusCode)
     .cookie("token", token, options)
@@ -26,6 +35,7 @@ const sendResponseWithToken = (userModel, statusCode, response) => {
           username: userModel.username,
           email: userModel.email,
           role: userModel.role,
+          credentials,
           image: userModel.image,
         },
       },

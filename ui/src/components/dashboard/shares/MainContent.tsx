@@ -10,8 +10,25 @@ import Box from '@mui/material/Box';
 // App Languages
 import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
 
+// Dashboard types
+import {
+  MANAGE_ACCOUNT,
+  MANAGE_PRODUCT,
+  MANAGE_ORDER,
+  MANAGE_NOTIFICATION,
+  MANAGE_SETTING,
+} from '@src/utils/types/dashboard';
+
+// State management
+import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
+
 // Components
 import { DrawerHeader } from '@src/components/dashboard/shares/Complements';
+import AccountSettings from '@src/components/dashboard/account';
+import Product from '@src/components/dashboard/product';
+import Order from '@src/components/dashboard/order';
+import Notification from '@src/components/dashboard/notify';
+import AppSettings from '@src/components/dashboard/app';
 
 interface Props {
   appLang: string;
@@ -21,37 +38,17 @@ interface Props {
  *                Main Function
  **************************************************/
 const MainContent = ({ appLang }: Props) => {
+  const { currentItem } = useAppSelector((state) => state.dashboard);
+
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+    <Box component="main" sx={{ flexGrow: 1, px: 1, py: 2 }}>
       <DrawerHeader />
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
-        non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-        tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non
-        tellus. Convallis convallis tellus id interdum velit laoreet id donec
-        ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-        suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod
-        quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet
-        proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras
-        tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum
-        varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-        Lorem donec massa sapien faucibus et molestie ac.
-      </Typography>
-      <Typography paragraph>
-        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-        ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar elementum
-        integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi
-        lacus sed viverra tellus. Purus sit amet volutpat consequat mauris.
-        Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra
-        accumsan in. In hendrerit gravida rutrum quisque non tellus orci ac.
-        Pellentesque nec nam aliquam sem et tortor. Habitant morbi tristique
-        senectus et. Adipiscing elit duis tristique sollicitudin nibh sit.
-        Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra
-        maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
-        aliquam ultrices sagittis orci a.
-      </Typography>
+
+      {currentItem === MANAGE_ACCOUNT ? <AccountSettings /> : null}
+      {currentItem === MANAGE_PRODUCT ? <Product /> : null}
+      {currentItem === MANAGE_ORDER ? <Order /> : null}
+      {currentItem === MANAGE_NOTIFICATION ? <Notification /> : null}
+      {currentItem === MANAGE_SETTING ? <AppSettings /> : null}
     </Box>
   );
 };

@@ -2,8 +2,8 @@ import React, { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
 
 // App state management
-import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
-import { getAuthState } from '@src/features/store/slices/auth';
+// import { useAppSelector, useAppDispatch } from '@src/features/hooks/useStore';
+// import { getAuthState } from '@src/features/store/slices/auth';
 
 // Components
 import MainContent from '@src/components/shares/MainContent';
@@ -18,12 +18,13 @@ interface Props {
  *                            MAIN METHOD
  ************************************************************************/
 const EmptyLayout = ({ title, description, children }: Props) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // const { isLoader } = useAppSelector((state) => state.ui);
+  // console.log('Layout 1');
 
-  useEffect(() => {
-    dispatch(getAuthState());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAuthState());
+  // }, [dispatch]);
 
   return (
     <>

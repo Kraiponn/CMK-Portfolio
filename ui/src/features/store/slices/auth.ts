@@ -7,6 +7,7 @@ import {
   SigninResult,
   IUser,
   IAuthForm,
+  IFormAccount,
 } from '@src/utils/types/auth';
 import Cookies from 'js-cookie';
 
@@ -57,7 +58,17 @@ const signup = createAsyncThunk<SignupResult, IAuthForm>(
 
 const signin = createAsyncThunk<
   SigninResult,
-  Omit<IAuthForm, 'username' | 'confirmPassword'>
+  Omit<
+    IAuthForm,
+    | 'username'
+    | 'confirmPassword'
+    | 'role'
+    | 'age'
+    | 'sex'
+    | 'mobile'
+    | 'address'
+    | 'resetToken'
+  >
 >('auth/signin', async (formValue): Promise<SigninResult> => {
   const cancelToken = axios.CancelToken;
   const source = cancelToken.source();
@@ -83,6 +94,34 @@ const signin = createAsyncThunk<
     throw new Error(getErrors(error as AxiosError));
   }
 });
+
+const editedUser = createAsyncThunk<SignupResult, IFormAccount>(
+  'dashboard/editUser',
+  async (formValue): Promise<SignupResult> => {
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
+
+    try {
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/updateduser/${formValue.userId}`,
+        formValue.form,
+        {
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${formValue.token}`,
+          },
+          cancelToken: source.token,
+        }
+      );
+
+      source.cancel('Cancel api resouce');
+
+      return data as SignupResult;
+    } catch (error) {
+      throw new Error(getErrors(error as AxiosError));
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -182,9 +221,43 @@ const authSlice = createSlice({
       state.success = '';
       state.error = action.error.message || '';
     });
+
+    /***************************************************
+     *    Edited User PROCESS
+     */
+    builder.addCase(editedUser.pending, (state) => {
+      // console.log('EditedUser Start...');
+
+      state.isLoading = true;
+      state.error = '';
+      state.success = '';
+      // state.token = '';
+      state.user = null;
+    });
+
+    builder.addCase(editedUser.fulfilled, (state, action) => {
+      // console.log('EditedUser Fulfilled ...');
+      const { payload } = action;
+
+      state.isLoading = false;
+      state.error = '';
+      state.success = 'Edit user is successfully';
+      state.user = payload.data.user;
+
+      // Cookies.set('authToken', payload.data.token);
+      Cookies.set('authUser', JSON.stringify(payload.data.user));
+    });
+
+    builder.addCase(editedUser.rejected, (state, action) => {
+      // console.log('EditedUser Rejected...');
+
+      state.isLoading = false;
+      state.success = '';
+      state.error = action.error.message || '';
+    });
   },
 });
 
-export { signup, signin };
+export { signup, signin, editedUser };
 export const { setSuccessProcess, signout, getAuthState } = authSlice.actions;
 export default authSlice.reducer;

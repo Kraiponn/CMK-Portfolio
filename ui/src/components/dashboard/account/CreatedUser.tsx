@@ -10,6 +10,8 @@ import { useAppSelector } from '@src/features/hooks/useStore';
 // Languages
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 
+// Components
+
 interface Props {
   appLang: string;
 }
@@ -17,7 +19,7 @@ interface Props {
 /************************************************
  *    MAIN METHOD
  */
-const AccountSettings = ({ appLang }: Props) => {
+const CreatedUser = () => {
   return (
     <Box
       sx={{
@@ -27,10 +29,10 @@ const AccountSettings = ({ appLang }: Props) => {
       }}
     >
       <Typography variant="h2" component="h2">
-        Account Settings
+        Create User
       </Typography>
     </Box>
   );
 };
 
-export default AccountSettings;
+export default CreatedUser;

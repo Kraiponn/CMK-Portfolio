@@ -25,11 +25,15 @@ type Errors = {
 interface Props {
   control: Control<IAuthForm, object>;
   name: 'username' | 'email';
+
   type: 'text' | 'email' | 'number';
   label: string;
   errors: Errors;
 }
 
+/*************************************************************************
+ *                            MAIN METHOD
+ ************************************************************************/
 const CMInput = ({ control, name, type, label, errors }: Props) => {
   const handlePrefixIcon = () => {
     if (type === 'email') {

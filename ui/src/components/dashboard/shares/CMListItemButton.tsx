@@ -39,7 +39,6 @@ const CMListItemButton = ({
   return (
     <ListItem
       button
-      // color="primary"
       selected={selected}
       onClick={() => handleClickedMenu(itemNo)}
     >

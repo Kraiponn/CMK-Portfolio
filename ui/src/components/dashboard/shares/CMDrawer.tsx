@@ -1,16 +1,16 @@
 import React from 'react';
-import Image from 'next/image';
+import Image, { ImageLoaderProps } from 'next/image';
+import { useRouter } from 'next/router';
 
 // Css frame work
 import {
   Divider,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
   IconButton,
   Tooltip,
   Theme,
+  Avatar,
 } from '@mui/material';
 import {
   DrawerHeader,
@@ -29,49 +29,86 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 // Colors system
 import { cmPrimaryColor } from '@src/utils/colorsType';
 
+// State management
+import {
+  MANAGE_HOME,
+  MANAGE_ACCOUNT,
+  MANAGE_PRODUCT,
+  MANAGE_ORDER,
+  MANAGE_NOTIFICATION,
+  MANAGE_SETTING,
+  SIGN_OUT,
+} from '@src/utils/types/dashboard';
+import { useAppDispatch, useAppSelector } from '@src/features/hooks/useStore';
+import {
+  toggleAccountMenu,
+  selectedItemMenu,
+} from '@src/features/store/slices/dashboard';
+import { signout } from '@src/features/store/slices/auth';
+
+// App Languages
+import { EN_US_LOCALE_TYPE, enUs, th } from '@src/features/languages';
+
 // Components
 import CMListItemButton from '@src/components/dashboard/shares/CMListItemButton';
+import CMListAccountMenu from '@src/components/dashboard/shares/CMListAccountMenu';
 
 interface Props {
-  title: string;
-  homeLabel: string;
-  accountLabel: string;
-  productLabel: string;
-  orderLabel: string;
-  notifyLabel: string;
-  settingLabel: string;
-  signoutLabel: string;
-  open: boolean;
-  currentIndex: number;
   appLang: string;
   theme: Theme;
   handleDrawerClose: () => void;
-  handleClickedMenu: (no: number) => void;
 }
+
+// const myLoader = ({ src, width, quality }: ImageLoaderProps) => {
+//   return `https://res.cloudinary.com/${src}?w=${width}&q=${quality || 75}`;
+// };
 
 /***************************************************
  *                Main Function
  **************************************************/
-const CMDrawer = ({
-  title,
-  homeLabel,
-  accountLabel,
-  productLabel,
-  orderLabel,
-  settingLabel,
-  notifyLabel,
-  signoutLabel,
-  open,
-  currentIndex,
-  appLang,
-  theme,
-  handleDrawerClose,
-  handleClickedMenu,
-}: Props) => {
+const CMDrawer = ({ appLang, theme, handleDrawerClose }: Props) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const { drawerListAccountMenu, currentItem, drawerOpen } = useAppSelector(
+    (state) => state.dashboard
+  );
+  const { user } = useAppSelector((state) => state.auth);
+
+  const { dashboardPage: pageLangObj } =
+    appLang === EN_US_LOCALE_TYPE ? enUs : th;
+
+  const handleDrawerMenuItemSelect = (itemType: string) => {
+    switch (itemType) {
+      case MANAGE_HOME:
+        router.push('/', '/', { locale: appLang });
+        break;
+      case MANAGE_ACCOUNT:
+        dispatch(toggleAccountMenu(itemType));
+        break;
+      case MANAGE_PRODUCT:
+        dispatch(selectedItemMenu(itemType));
+        break;
+      case MANAGE_ORDER:
+        dispatch(selectedItemMenu(itemType));
+        break;
+      case MANAGE_NOTIFICATION:
+        dispatch(selectedItemMenu(itemType));
+        break;
+      case MANAGE_SETTING:
+        dispatch(selectedItemMenu(itemType));
+        break;
+      case SIGN_OUT:
+        dispatch(signout());
+        router.push('/auth/signin', '/auth/signin', { locale: appLang });
+        break;
+    }
+  };
+
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={drawerOpen}>
       <DrawerHeader>
-        <Tooltip title={title}>
+        <Tooltip title={pageLangObj.appbarTitle}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon fontSize="large" />
@@ -93,82 +130,116 @@ const CMDrawer = ({
           sx={{
             bgcolor: `${cmPrimaryColor}`,
             width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <Image
-            src={`/images/business_man_thinking_1.svg`}
-            alt="Profile"
-            width={200}
-            height={150}
-          />
+          {drawerOpen ? (
+            <>
+              {user?.image?.secure_url ? (
+                <Avatar
+                  alt="profile"
+                  sx={{
+                    width: 150,
+                    height: 150,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                  }}
+                  variant="circular"
+                  src={user.image.secure_url}
+                />
+              ) : (
+                <Image
+                  src={`/images/business_man_thinking_1.svg`}
+                  alt="Profile"
+                  width={200}
+                  height={150}
+                />
+              )}
+            </>
+          ) : (
+            <Image
+              src={`/images/business_man_thinking_1.svg`}
+              alt="Profile"
+              width={200}
+              height={150}
+            />
+          )}
         </ListItem>
+
         <Divider />
 
         <CMListItemButton
           appLang={appLang}
-          label={homeLabel}
+          label={pageLangObj.drawerMenu.home}
           Icon={HomeIcon}
           itemNo={0}
           selected={false}
-          handleClickedMenu={handleClickedMenu}
+          handleClickedMenu={() => handleDrawerMenuItemSelect(MANAGE_HOME)}
         />
 
         <Divider />
 
-        <CMListItemButton
+        <CMListAccountMenu
           appLang={appLang}
-          label={accountLabel}
+          role={user?.role || 'User'}
+          label={pageLangObj.drawerMenu.account.title}
           Icon={ManageAccountsIcon}
           itemNo={1}
-          selected={currentIndex === 1 ? true : false}
-          handleClickedMenu={handleClickedMenu}
+          selected={currentItem === MANAGE_ACCOUNT ? true : false}
+          openSubMenu={drawerListAccountMenu.openAccount}
+          handleClickedMenu={() => handleDrawerMenuItemSelect(MANAGE_ACCOUNT)}
         />
+
+        {user?.role === 'Admin' && (
+          <CMListItemButton
+            appLang={appLang}
+            label={pageLangObj.drawerMenu.product}
+            Icon={BusinessCenterIcon}
+            itemNo={2}
+            selected={currentItem === MANAGE_PRODUCT ? true : false}
+            handleClickedMenu={() => handleDrawerMenuItemSelect(MANAGE_PRODUCT)}
+          />
+        )}
 
         <CMListItemButton
           appLang={appLang}
-          label={productLabel}
-          Icon={BusinessCenterIcon}
-          itemNo={2}
-          selected={currentIndex === 2 ? true : false}
-          handleClickedMenu={handleClickedMenu}
-        />
-
-        <CMListItemButton
-          appLang={appLang}
-          label={orderLabel}
+          label={pageLangObj.drawerMenu.order}
           Icon={ShoppingCartIcon}
           itemNo={3}
-          selected={currentIndex === 3 ? true : false}
-          handleClickedMenu={handleClickedMenu}
+          selected={currentItem === MANAGE_ORDER ? true : false}
+          handleClickedMenu={() => handleDrawerMenuItemSelect(MANAGE_ORDER)}
         />
 
         <CMListItemButton
           appLang={appLang}
-          label={notifyLabel}
+          label={pageLangObj.drawerMenu.notification}
           Icon={NotificationsActiveIcon}
           itemNo={4}
-          selected={currentIndex === 4 ? true : false}
-          handleClickedMenu={handleClickedMenu}
+          selected={currentItem === MANAGE_NOTIFICATION ? true : false}
+          handleClickedMenu={() =>
+            handleDrawerMenuItemSelect(MANAGE_NOTIFICATION)
+          }
         />
 
         <CMListItemButton
           appLang={appLang}
-          label={settingLabel}
+          label={pageLangObj.drawerMenu.setting}
           Icon={SettingsIcon}
           itemNo={5}
-          selected={currentIndex === 5 ? true : false}
-          handleClickedMenu={handleClickedMenu}
+          selected={currentItem === MANAGE_SETTING ? true : false}
+          handleClickedMenu={() => handleDrawerMenuItemSelect(MANAGE_SETTING)}
         />
         <Divider />
 
         <CMListItemButton
           appLang={appLang}
-          label={signoutLabel}
+          label={pageLangObj.drawerMenu.signout}
           Icon={PowerSettingsNewtIcon}
           iconColor="secondary"
           itemNo={6}
-          selected={currentIndex === 6 ? true : false}
-          handleClickedMenu={handleClickedMenu}
+          selected={currentItem === SIGN_OUT ? true : false}
+          handleClickedMenu={() => handleDrawerMenuItemSelect(SIGN_OUT)}
         />
       </List>
     </Drawer>

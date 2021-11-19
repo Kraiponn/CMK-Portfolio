@@ -10,19 +10,29 @@ import { useAppSelector } from '@src/features/hooks/useStore';
 // Languages
 import { enUs, th, EN_US_LOCALE_TYPE } from '@src/features/languages';
 
-interface Props {}
+// Components
+
+interface Props {
+  appLang: string;
+}
 
 /************************************************
  *    MAIN METHOD
  */
-const AppSettings = (props: Props) => {
+const EditPassword = () => {
   return (
-    <Box sx={{}}>
+    <Box
+      sx={{
+        width: '90%',
+        height: '90vh',
+        margin: '0 auto',
+      }}
+    >
       <Typography variant="h2" component="h2">
-        App Settings
+        Edit Password
       </Typography>
     </Box>
   );
 };
 
-export default AppSettings;
+export default EditPassword;

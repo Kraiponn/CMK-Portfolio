@@ -72,17 +72,18 @@ exports.createdUser = asyncHanler(async (req, res, next) => {
     };
   }
 
-  userObj.username = req.body.username;
-  userObj.email = req.body.email;
-  userObj.password = req.body.password;
-  userObj.role = req.body.role || "User";
+  const { username, email, password, role, mobile, address, age, sex } =
+    req.body;
+
+  userObj.username = username;
+  userObj.email = email;
+  userObj.password = password;
+  userObj.role = role || "User";
   userObj.credentials = {
-    phone: {
-      mobile: req.body.mobile,
-      office: req.body.office,
-    },
-    address: req.body.address || "",
-    age: req.body.age || 0,
+    mobile: mobile || "",
+    address: address || "",
+    age: age || 0,
+    sex: sex || "",
   };
 
   const user = await User.create(userObj);
@@ -141,6 +142,11 @@ exports.updatedUser = asyncHanler(async (req, res, next) => {
   const error = validationResult(req);
   validateBodyResults(error);
 
+  // console.log("body", req.body);
+  // if (req.file) {
+  //   console.log("file path", req.file.path);
+  // }
+
   let imgObj;
 
   const user = await User.findById(req.params.userId);
@@ -151,8 +157,10 @@ exports.updatedUser = asyncHanler(async (req, res, next) => {
 
   // Remove image from cloudinary if admin provided new image
   if (req.file) {
-    // Delete old image from cloudinary
-    await cloudinary.uploader.destroy(user.image.public_id);
+    if (user.image.public_id) {
+      // Delete old image from cloudinary
+      await cloudinary.uploader.destroy(user.image.public_id);
+    }
 
     // Upload new image to cloudinary
     imgObj = await cloudinary.uploader.upload(req.file.path);
@@ -163,18 +171,16 @@ exports.updatedUser = asyncHanler(async (req, res, next) => {
     };
   }
 
-  const { username, email, role, mobile, office, address, age } = req.body;
+  const { username, email, role, mobile, address, age, sex } = req.body;
 
   user.username = username ? username : user.username;
   user.email = email ? email : user.email;
   user.role = role ? role : user.role;
   user.credentials = {
-    phone: {
-      mobile: mobile ? mobile : user.credentials.phone.mobile,
-      office: office ? office : user.credentials.phone.office,
-    },
+    mobile: mobile ? mobile : user.credentials.phone.mobile,
     address: address ? address : user.credentials.address,
     age: age ? age : user.credentials.age,
+    sex: sex ? sex : user.sex,
   };
 
   await user.save();
@@ -183,6 +189,7 @@ exports.updatedUser = asyncHanler(async (req, res, next) => {
     success: true,
     data: {
       message: `User updated successfully`,
+      user,
     },
   });
 });
